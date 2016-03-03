@@ -1465,7 +1465,7 @@ aside.blog-sidebar .tag_cloud h4{border:none;}
 .intro-block .ray{ z-index:1;}
 
 .intro-block .container {
-	padding: 160px 0;
+	padding: 20px 0;
 	z-index: 2;}
 
 .intro-block h1 a{ 
@@ -1497,7 +1497,6 @@ aside.blog-sidebar .tag_cloud h4{border:none;}
 
 .intro-block .logo {
 	display: inline-block;
-	margin: 0 0 120px 0;
 }
 
 .intro-block h1.slogan {
