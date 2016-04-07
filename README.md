@@ -9,6 +9,13 @@
     bower install
     ```
 
+- Emulation sur Chrome
+
+    ```shell
+    cd here-and-now
+    ionic serve
+    ```
+
 Mac OS X
 
 - Installation émulateur iOS
