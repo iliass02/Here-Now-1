@@ -12,7 +12,7 @@ app
       password: password
     };
 
-    $http.post('http://debian.dev:3000/api/v1/login', data)
+    $http.post(path_url+'/api/v1/login', data)
       .success(function(data) {
         console.log(data);
         $location.path("/tab/dash")
