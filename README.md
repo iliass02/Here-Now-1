@@ -12,7 +12,7 @@
 - Emulation sur Chrome
 
     ```shell
-    cd here-and-now
+    cd here-and-now-app
     ionic serve
     ```
 
