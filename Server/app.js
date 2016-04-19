@@ -15,9 +15,9 @@ var db = mysql.createConnection({
 
 db.connect(function(err) {
     if (err)
-        console.log("No connect db");
+        console.log("Connexion à la BDD : KO !!!!!!!!!!!!!!!!!!!!");
     else
-        console.log("good db");
+        console.log("Connexion à la BDD : OK");
 });
 
 app.use(function(req, res, next) {
@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 3000;
 var router = express.Router();
 
-app.get('/', function(req, res) {
+app.get('/api/v1/', function(req, res) {
     res.send("API V1 Here & Now");
 });
 

@@ -3,8 +3,6 @@ app
 .controller('LoginCtrl', function ($scope, $http, $location) {
 
   $scope.connect = function (login, password) {
-    console.log("login : "+ login);
-    console.log("password : "+ password);
 
 
     var data = {
