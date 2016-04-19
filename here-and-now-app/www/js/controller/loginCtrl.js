@@ -10,7 +10,7 @@ app
       password: password
     };
 
-    $http.post(path_url+'/api/v1/login', data)
+    $http.post(path_url+'/api/v1/signin', data)
       .success(function(data) {
         console.log(data);
         $location.path("/tab/dash")
