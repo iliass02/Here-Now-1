@@ -64,22 +64,51 @@ module.exports = function(router, connection) {
                 });
             } else {
 
-                password = bcrypt.hashSync(password);
-
-                var request = "INSERT INTO ?? (??, ??, ??) VALUES (?, ?, ?)";
-                var table = ['users', 'login', 'email', 'password', login, email, password];
+                /**
+                 * Check if user exist
+                 */
+                var request = "SELECT * FROM ?? WHERE ?? = ? OR ?? = ?";
+                var table = ['users', 'login', login, 'email', login ];
                 request = mysql.format(request, table);
-                connection.query(request, function (err, data) {
-                    if (err) {
+                connection.query(request, function(err, data) {
+
+                    if (err)
                         res.status(500).send({
                             "success": false,
                             "error": err
                         });
-                    } else if (data) {
-                        res.status(200).send({
-                            "success": true,
-                            "data": data
-                        });
+                    else {
+
+                        if (typeof data[0] != 'undefined') {
+                            res.status(401).send({
+                                "success": false,
+                                "error": "Unauthorized : User exist"
+                            });
+                        } else {
+
+                            /**
+                            * Signup
+                            */
+
+                            password = bcrypt.hashSync(password);
+
+                            var request = "INSERT INTO ?? (??, ??, ??) VALUES (?, ?, ?)";
+                            var table = ['users', 'login', 'email', 'password', login, email, password];
+                            request = mysql.format(request, table);
+                            connection.query(request, function (err, data) {
+                                if (err) {
+                                    res.status(500).send({
+                                        "success": false,
+                                        "error": err
+                                    });
+                                } else if (data) {
+                                    res.status(200).send({
+                                        "success": true,
+                                        "data": data
+                                    });
+                                }
+                            });
+                        }
                     }
                 });
 

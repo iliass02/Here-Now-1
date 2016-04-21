@@ -2,19 +2,19 @@
   <ion-content>
     <div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Login" >
+        <input type="text" placeholder="Login" data-ng-model="login" >
       </label>
       <label class="item item-input">
-        <input type="email" placeholder="E-mail">
+        <input type="email" placeholder="E-mail" ng-model="email">
       </label>
       <label class="item item-input">
-        <input type="password" placeholder="Mot de Passe" >
+        <input type="password" placeholder="Mot de Passe" data-ng-model="password" >
       </label>
     </div>
     <div class="padding">
 
       <a href="#/signup">
-        <button class="button button-block button-positive activated" >
+        <button class="button button-block button-positive activated" ng-click="signup(login, email, password)" >
           Inscription
         </button>
       </a>

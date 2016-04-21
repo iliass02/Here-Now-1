@@ -1,6 +1,6 @@
 app
 
-.controller('LoginCtrl', function ($scope, $http, $location) {
+.controller('SigninCtrl', function ($scope, $http, $location) {
 
   $scope.connect = function (login, password) {
 

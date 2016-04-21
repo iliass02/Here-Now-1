@@ -6,7 +6,8 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-path_url = "http://localhost:3000";
+//path_url = "http://debian.dev:3000";
+path_url = "http://locahost:3000";
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
@@ -43,12 +44,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // Each tab has its own nav history stack:
 
-    .state('login', {
-      url: '/login',
+    .state('signin', {
+      url: '/signin',
       views: {
         '': {
           templateUrl: 'templates/login.html',
-          controller: 'LoginCtrl'
+          controller: 'SigninCtrl'
         }
       }
     })
@@ -58,7 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         '': {
           templateUrl: 'templates/signup.html',
-          
+          controller: 'SignupCtrl'
         }
       }
     })
@@ -103,6 +104,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/signin');
 
 });
