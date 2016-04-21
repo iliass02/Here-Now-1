@@ -8,7 +8,8 @@ var path = require('path');
 
 var db = mysql.createConnection({
     user: 'root',
-    password: 'root',
+    password: '123',
+    //password: 'root',
     database: 'Here-and-now',
     // debug: true
 });
@@ -42,6 +43,7 @@ app.get('/api/v1/', function(req, res) {
 });
 
 require('./api/routes/loginRoute.js')(router, db, mysql);
+require('./api/routes/interestsRoute.js')(router, db, mysql);
 
 app.use('/api/v1/', router);
 app.listen(port);
