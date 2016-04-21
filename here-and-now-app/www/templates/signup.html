@@ -1,5 +1,6 @@
-<ion-view view-title="Inscription">
+<ion-view view-title="">
   <ion-content>
+<<<<<<< Updated upstream
     <div class="list">
       <label class="item item-input">
         <input type="text" placeholder="Login" data-ng-model="login" >
@@ -19,5 +20,30 @@
         </button>
       </a>
     </div>
+=======
+    <div class="padding">
+    <form>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="email" class="validate" >
+          <label for="email">Email</label>
+      </div>
+      </div>
+      <div class="row">
+         <div class="input-field col s12">
+           <input id="login" type="text" class="validate" >
+           <label for="login">Login</label>
+       </div>
+       </div>
+    <div class="row">
+       <div class="input-field col s12">
+         <input id="password" type="password" class="validate" >
+         <label for="password">Password</label>
+     </div>
+     </div>
+   </form>
+ </div>
+  <center><a class="waves-effect waves-light btn" ng-click="connect(user.login, user.password)" > S'inscrire </a></center>
+>>>>>>> Stashed changes
   </ion-content>
 </ion-view>
