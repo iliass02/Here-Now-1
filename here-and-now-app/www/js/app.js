@@ -63,6 +63,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
+    .state('interests', {
+      url: '/interests',
+      views: {
+        '': {
+          templateUrl: 'templates/interests.html',
+        }
+      }
+    })
 
     .state('tab.dash', {
     url: '/dash',

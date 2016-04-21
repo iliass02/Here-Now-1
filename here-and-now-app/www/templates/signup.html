@@ -1,49 +1,28 @@
-<ion-view view-title="">
+<ion-view >
   <ion-content>
-<<<<<<< Updated upstream
-    <div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Login" data-ng-model="login" >
-      </label>
-      <label class="item item-input">
-        <input type="email" placeholder="E-mail" ng-model="email">
-      </label>
-      <label class="item item-input">
-        <input type="password" placeholder="Mot de Passe" data-ng-model="password" >
-      </label>
-    </div>
-    <div class="padding">
-
-      <a href="#/signup">
-        <button class="button button-block button-positive activated" ng-click="signup(login, email, password)" >
-          Inscription
-        </button>
-      </a>
-    </div>
-=======
+    <center><img src="../img/logo.png" width="150" ></center>
     <div class="padding">
     <form>
       <div class="row">
         <div class="input-field col s12">
-          <input id="email" type="email" class="validate" >
+          <input id="email" type="email" class="validate" data-ng-model="email">
           <label for="email">Email</label>
       </div>
       </div>
       <div class="row">
          <div class="input-field col s12">
-           <input id="login" type="text" class="validate" >
+           <input id="login" type="text" class="validate" data-ng-model="login">
            <label for="login">Login</label>
        </div>
        </div>
     <div class="row">
        <div class="input-field col s12">
-         <input id="password" type="password" class="validate" >
+         <input id="password" type="password" class="validate" data-ng-model="password">
          <label for="password">Password</label>
      </div>
      </div>
    </form>
  </div>
-  <center><a class="waves-effect waves-light btn" ng-click="connect(user.login, user.password)" > S'inscrire </a></center>
->>>>>>> Stashed changes
+  <center><a class="waves-effect waves-light btn" href="#/interests"> Suivant </a></center>
   </ion-content>
 </ion-view>
