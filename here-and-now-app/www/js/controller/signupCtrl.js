@@ -3,22 +3,18 @@ app
 .controller('SignupCtrl', function ($scope, $http, $location) {
 
   //Get all interests
-  $http.get(path_url+'/api/v1/all-interests')
+  $http.get(path_url+'/api/v1/interests-category')
     .success(function(data) {
       console.log(data);
-      $scope.interests = data.data;
+      $scope.categories = data.data;
     })
     .error(function(data) {
       console.log(data);
     })
-  
 
 
   //Inscription
   $scope.signup = function (login, email, password) {
-
-
-    console.log(login, email, password);
 
     var data = {
       login: login,
