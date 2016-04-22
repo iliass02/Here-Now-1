@@ -3,7 +3,7 @@ var bcrypt = require("bcrypt-nodejs");
 
 module.exports = function(router, connection) {
 
-    router.route("/signin")
+        router.route("/signin")
         // get all clients
         .post(function(req, res) {
 

@@ -25,10 +25,20 @@ app
     $http.post(path_url+'/api/v1/signup', data)
       .success(function(data) {
         console.log(data);
+        Materialize.toast("Inscription réussi", 2000, "green");
         $location.path("/tab/dash")
       })
-      .error(function(data) {
+      .error(function(data, status) {
+        console.log(status);
         console.log(data);
+
+        if (status == 500) {
+          Materialize.toast("Erreur : tous les champs sont requis !", 1500, "red");
+        } else if (status == 401) {
+          Materialize.toast("Erreur : le login ou le mail existe déjà !", 1500, "red");
+        } else {
+          Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
+        }
       })
 
   }

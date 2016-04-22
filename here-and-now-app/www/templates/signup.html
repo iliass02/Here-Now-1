@@ -1,4 +1,4 @@
-<ion-view >
+<ion-view view-title="Inscription">
   <ion-content>
     <center><img src="../img/logo.png" width="150" ></center>
     <div class="padding">
@@ -21,8 +21,8 @@
         <label for="password">Password</label>
       </div>
     </div>
-    <div class="row">
-      <div class="input-field col s12" ng-repeat="category in categories">
+    <div class="row" ng-repeat="category in categories">
+      <div class="input-field col s3">
         <input id="{{category.id}}" type="checkbox" class="filled-in" >
         <label for="{{category.id}}">{{ category.name }}</label>
       </div>
