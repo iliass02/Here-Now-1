@@ -3,7 +3,7 @@ app
 .controller('SignupCtrl', function ($scope, $http, $location) {
 
   //Get all interests
-  $http.get(path_url+'/api/v1/interests-category')
+  $http.get(path_url+'/api/v1/interests')
     .success(function(data) {
       console.log(data);
       $scope.categories = data.data;
@@ -14,17 +14,23 @@ app
 
 
   //Inscription
-  $scope.signup = function (login, email, password) {
+  $scope.signup = function (login, email, password, interests) {
+
+    console.log(interests);
 
     var data = {
       login: login,
       email: email,
-      password: password
+      password: password,
     }
 
     $http.post(path_url+'/api/v1/signup', data)
       .success(function(data) {
         console.log(data);
+
+
+
+
         Materialize.toast("Inscription réussi", 2000, "green");
         $location.path("/tab/dash")
       })

@@ -28,6 +28,30 @@ module.exports = function(router, connection) {
 
         });
 
+    router.route('/interests')
+        .get(function (req, res) {
+
+            var request = "SELECT * FROM ??";
+            var table = ["interest"];
+            var request = connection.format(request, table);
+            connection.query(request, function (err, data) {
+
+                if (err) {
+                    res.status(500).send({
+                        'success': false,
+                        'error': err
+                    });
+                } else {
+                    res.status(200).send({
+                        'success': true,
+                        'data': data
+                    });
+                }
+
+            });
+
+        });
+
     router.route('/interests-category/:category_id')
         .get(function (req, res) {
 
