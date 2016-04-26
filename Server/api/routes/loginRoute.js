@@ -57,7 +57,7 @@ module.exports = function(router, connection) {
             var email = req.body.email;
             var password = req.body.password;
 
-            if(!login || !email || !password) {
+            if(!login || !email || !password ) {
                 res.status(500).send({
                     "success": false,
                     "error": "login, email and password are required"
@@ -102,6 +102,7 @@ module.exports = function(router, connection) {
                                         "error": err
                                     });
                                 } else if (data) {
+
                                     res.status(200).send({
                                         "success": true,
                                         "data": data

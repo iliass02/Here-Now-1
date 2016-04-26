@@ -64,10 +64,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
     .state('interests', {
-      url: '/interests',
+      url: '/interests/:user_id',
       views: {
         '': {
           templateUrl: 'templates/interests.html',
+          controller: 'InterestsCtrl'
         }
       }
     })

@@ -21,15 +21,8 @@
         <label for="password">Password</label>
       </div>
     </div>
-      <div class="input-field col s12">
-        <select multiple data-ng-model="data.multipleSelect" required>
-          <option value="" disabled selected>Choose your option</option>
-          <option  ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
-        </select>
-        <label>Materialize Select</label>
-      </div>
    </form>
  </div>
-  <center><a class="waves-effect waves-light btn" ng-click="signup(login, email, password, data.multipleSelect)"> Suivant </a></center>
+  <center><a class="waves-effect waves-light btn" ng-click="signup(login, email, password, user.roles)"> Suivant </a></center>
   </ion-content>
 </ion-view>
