@@ -9,7 +9,7 @@
 path_url = "http://debian.dev:3000";
 //path_url = "http://locahost:3000";
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -69,6 +69,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         '': {
           templateUrl: 'templates/interests.html',
           controller: 'InterestsCtrl'
+        }
+      }
+    })
+
+    .state('map', {
+      url: '/map',
+      views: {
+        '': {
+          templateUrl: 'templates/map.html',
+          controller: 'MapCtrl'
         }
       }
     })
