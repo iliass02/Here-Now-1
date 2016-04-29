@@ -15,8 +15,8 @@ app
     $http.post(path_url+'/api/v1/signin', data)
       .success(function(data) {
         console.log(data);
-        Materialize.toast("Inscription réussi", 2000, "green");
-        $location.path("/tab/dash")
+        Materialize.toast("Connexion réussi", 2000, "green");
+        $location.path("/map");
       })
       .error(function(data, status) {
         console.log(data);
