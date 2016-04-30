@@ -9,15 +9,26 @@ app
 
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 
-      var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
 
       var mapOptions = {
-        center: latLng,
-        zoom: 15,
+        center: myLatlng,
+        zoom: 16,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-      $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+        /*var myLocation = new google.maps.Marker({
+          position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+          map: map,
+          title: "My Location"
+        });*/
+      });
+
+      $scope.map = map;
 
 
     }, function(error){
