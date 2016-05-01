@@ -118,5 +118,45 @@ module.exports = function(router, connection) {
 
         });
 
+    router.route('/interests/:user_id')
+        .get(function(req, res) {
+
+            var user_id = req.params.user_id;
+            if (!user_id) {
+                return res.status(401).send({
+                    'success': false,
+                    'error': 'Unauthorized : User not found'
+                });
+            } else {
+
+                var request = "SELECT * FROM ?? WHERE ?? = ?";
+                var table = ["users_interest", "user_id", user_id];
+                request = mysql.format(request, table);
+                connection.query(request, function (err, data) {
+
+                    if (err) {
+                        return res.status(500).send({
+                            'success': false,
+                            'error': err
+                        })
+                    } else if (data.length == 0) {
+                        return res.status(500).send({
+                            'success': true,
+                            'data': 'data is null'
+                        });
+                    } else {
+                        return res.status(200).send({
+                            'success': true,
+                            'data': data
+                        });
+                    }
+
+                });
+
+            }
+
+
+        });
+
 
 };
