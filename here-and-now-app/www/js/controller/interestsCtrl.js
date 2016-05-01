@@ -48,7 +48,7 @@ app
     $http.post(path_url+"/api/v1/interests", data)
       .success(function (data) {
         Materialize.toast("Ajout des centres d'intérêts réussi", 2000, "green");
-        $location.path('/tab/dash');
+        $location.path('/map');
       })
       .error(function (data, status) {
         if (status == 500) {
