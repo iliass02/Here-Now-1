@@ -5,7 +5,11 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+
+path_url = "http://debian.dev:3000";
+//path_url = "http://locahost:3000";
+
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -40,7 +44,46 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
+    .state('signin', {
+      url: '/signin',
+      views: {
+        '': {
+          templateUrl: 'templates/login.html',
+          controller: 'SigninCtrl'
+        }
+      }
+    })
+
+    .state('signup', {
+      url: '/signup',
+      views: {
+        '': {
+          templateUrl: 'templates/signup.html',
+          controller: 'SignupCtrl'
+        }
+      }
+    })
+    .state('interests', {
+      url: '/interests/:user_id',
+      views: {
+        '': {
+          templateUrl: 'templates/interests.html',
+          controller: 'InterestsCtrl'
+        }
+      }
+    })
+
+    .state('map', {
+      url: '/map',
+      views: {
+        '': {
+          templateUrl: 'templates/map.html',
+          controller: 'MapCtrl'
+        }
+      }
+    })
+
+    .state('tab.dash', {
     url: '/dash',
     views: {
       'tab-dash': {
@@ -80,6 +123,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/signin');
 
 });
