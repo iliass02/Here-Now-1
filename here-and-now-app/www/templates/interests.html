@@ -1,0 +1,22 @@
+<ion-view view-title="Centres d'Intérêts">
+  <ion-content>
+
+    <div class="padding">
+      <form>
+
+        <div class="row">
+          <h5>Choisir vos centres d'intérêts</h5>
+        </div>
+
+        <div class="row" ng-repeat="role in roles">
+          <input type="checkbox" id="{{role.id}}" checklist-model="user.roles" checklist-value="role.id" ng-click="test()"/>
+          <label for="{{role.id}}">{{role.name}}</label>
+        </div>
+
+      </form>
+    </div>
+
+    <center><a class="waves-effect waves-light btn" ng-click="newInterests(user.roles)"> Ajouter </a></center>
+
+  </ion-content>
+</ion-view>
