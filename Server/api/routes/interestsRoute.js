@@ -128,7 +128,7 @@ module.exports = function(router, connection) {
                     error: 'User_id parameter is required'
                 });
             } else {
-                var request = "SELECT * FROM users_interest WHERE user_id = ?";
+                var request = "SELECT i.name name FROM users_interest as ui, interest as i WHERE ui.user_id = ? AND ui.interest_id = i.id";
                 var table = [user_id];
                 request = mysql.format(request, table);
                 connection.query(request,function (err, data) {
