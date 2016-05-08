@@ -118,5 +118,37 @@ module.exports = function(router, connection) {
 
         });
 
+    router.route('/interests/user/:user_id')
+        .get(function (req, res) {
+
+            var user_id = req.params.user_id;
+            if(!user_id) {
+                res.status(500).send({
+                    success: false,
+                    error: 'User_id parameter is required'
+                });
+            } else {
+                var request = "SELECT * FROM users_interest WHERE user_id = ?";
+                var table = [user_id];
+                request = mysql.format(request, table);
+                connection.query(request,function (err, data) {
+
+                    if(err) {
+                        res.status(500).send({
+                            success: false,
+                            error: err
+                        });
+                    } else {
+                        res.status(200).send({
+                            success: true,
+                            data: data
+                        });
+                    }
+
+                });
+            }
+
+        })
+
 
 };
