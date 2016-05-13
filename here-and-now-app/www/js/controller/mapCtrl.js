@@ -22,7 +22,6 @@ app
         var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  
         map.setCenter(latLng); 
 
-
         $http.get(path_url+'/api/v1/interests/user/'+$stateParams.user_id)
           .success(function (data) {
             console.log(data);
@@ -41,7 +40,9 @@ app
             console.log(err);
           })
 
-/*        var marker = new google.maps.Marker({
+
+
+        var marker = new google.maps.Marker({
           map: $scope.map,
           animation: google.maps.Animation.DROP,
           position: latLng
@@ -53,7 +54,21 @@ app
 
         google.maps.event.addListener(marker, 'click', function () {
           infoWindow.open($scope.map, marker);
-        });*/
+        });
+
+        var marker2 = new google.maps.Marker({
+          map: $scope.map,
+          animation: google.maps.Animation.DROP,
+          position: myLatlng
+        });
+
+        var infoWindow2 = new google.maps.InfoWindow({
+          content: "Paris"
+        });
+
+        google.maps.event.addListener(marker2, 'click', function () {
+          infoWindow2.open($scope.map, marker2);
+        });
 
 
       }).finally(function () { 
