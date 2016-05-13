@@ -8,11 +8,7 @@ var path = require('path');
 
 var db = mysql.createConnection({
     user: 'root',
-<<<<<<< Updated upstream
     password: 'root',
-=======
-    password: 'education',
->>>>>>> Stashed changes
     database: 'Here-and-now',
     // debug: true
 });
