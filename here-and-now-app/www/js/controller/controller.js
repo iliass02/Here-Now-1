@@ -1,1 +1,2 @@
-var app = angular.module('starter.controllers', ["checklist-model"]);
+var app = angular.module('starter.controllers', ["checklist-model", 'ngCordovaOauth']);
+

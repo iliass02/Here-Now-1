@@ -26,5 +26,22 @@
  <center><a class="waves-effect waves-light btn" ng-click="connect(user.login, user.password)" >Connexion</a></center>
 </div>
  <center><a href="#/signup">Créer un compte</a></center>
+
+  <div style="width:500px;height:180px;">
+    <a class="waves-effect waves-light btn" ng-click="facebook()">facebook</a>
+    </div>
+    <div ng-app="facebookApp">
+    
+      <div data-role="page" id="home">
+    
+
+      <div data-role="main" class="ui-content">
+        <a target="_blank" href="#" ng-click="login()" style="text-decoration: none"><button>Login using Facebook</button></a>
+    <br><br>
+</div>
+
+    </div>
+</div>
+
   </ion-content>
 </ion-view>
