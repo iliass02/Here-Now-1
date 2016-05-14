@@ -1,5 +1,11 @@
 <ion-view view-title="Map">
   <ion-content>
-    <div id="map" data-tap-disabled="true"></div>
+    <div id="map" data-tap-disabled="true" map-lazy-load="https://maps.google.com/maps/api/js"
+         map-lazy-load-params="{{googleMapsUrl}}">
+      <ng-map id="map" center="current-location" zoom="15">
+        <marker position="current-location" title="hello" animation="Animation.BOUNCE"></marker>
+        <marker ng-repeat="interest in interests" position="{{interest.geometry.location.lat}}, {{interest.geometry.location.lng}}"></marker>
+      </ng-map>
+    </div>
   </ion-content>
 </ion-view>
