@@ -1,6 +1,19 @@
 app
 
-.controller('SigninCtrl', function ($scope, $http, $location) {
+.controller('SigninCtrl', function ($scope, $http, $location, $firebaseAuth) {
+
+  $scope.facebook = function () {
+    var ref = new Firebase('https://here-and-now.firebaseio.com');
+    var authObject = $firebaseAuth(ref);
+
+    authObject.$authWithOAuthPopup('facebook').then(function (authData) {
+      console.log(authData);
+    }).catch(function (err) {
+      console.log(err)
+    })
+
+  }
+
 
   $scope.connect = function (login, password) {
 
