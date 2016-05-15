@@ -33,7 +33,6 @@ app
     $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
 
       $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
-      alert($scope.latLng);
 
 
       $http.get(path_url + '/api/v1/interests/user/' + $stateParams.user_id)
