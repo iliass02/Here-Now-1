@@ -1,35 +1,20 @@
 <ion-view view-title="Map">
   <ion-content>
-    <div id="map" data-tap-disabled="true" map-lazy-load="https://maps.google.com/maps/api/js"
-         map-lazy-load-params="{{googleMapsUrl}}">
-      <ng-map id="map" center="current-location" zoom="15">
-        <marker position="current-location" title="hello" animation="Animation.BOUNCE"></marker>
-        <marker ng-repeat="interest in interests" position="{{interest.geometry.location.lat}}, {{interest.geometry.location.lng}}" on-click="test()" ></marker>
+    <div  ng-controller="MapCtrl as vm">
+      <ng-map  style="display:block; height:550px" center="current-location" zoom="17">
+        <marker position="current-location" title="how" animation="Animation.BOUNCE"></marker>
+        <marker id='{{interest.id}}' position="{{interest.geometry.location.lat}}, {{interest.geometry.location.lng}}"
+                ng-repeat="interest in interests"
+                on-click="vm.showDetail(interest)">
+        </marker>
 
-        <info-window id="foo" on-mouseover="vm.mouseover()">
+        <info-window id="foo-iw">
           <div ng-non-bindable="">
-            Lat: {{anchor.getPosition().lat()}}<br/>
-            Lng: {{anchor.getPosition().lng()}}<br/>
-            <ul>
-              <li ng-repeat='item in vm.store.items'>{{item}}</li>
-            </ul>
+            {{vm.interest.name}}
           </div>
         </info-window>
-
-        <marker ng-repeat="(id, store) in vm.stores" id="{{id}}"
-                position="{{store.position}}"
-                on-click="vm.showStore(event, id)"></marker>
-
-        <info-window id="bar" on-mouseover="vm.mouseover()">
-          <div ng-non-bindable="">
-            Lat: {{anchor.getPosition().lat()}}<br/>
-            Lng: {{anchor.getPosition().lng()}}<br/>
-          </div>
-        </info-window>
-
-        <marker position="41, -79" on-click="vm.map.showInfoWindow('bar')" />
-
       </ng-map>
+
     </div>
   </ion-content>
 </ion-view>
