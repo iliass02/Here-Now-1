@@ -2,78 +2,48 @@ app
 
 .controller('SigninCtrl', function ($scope, $http, $location, $firebaseAuth) {
 
+  var ref = new Firebase('https://here-and-now.firebaseio.com');
+  var authObject = $firebaseAuth(ref);
+
   $scope.facebook = function () {
-    var ref = new Firebase('https://here-and-now.firebaseio.com');
-    var authObject = $firebaseAuth(ref);
 
     authObject.$authWithOAuthPopup('facebook').then(function (authData) {
       var loginuser = authData.facebook.cachedUserProfile.first_name + '_' + authData.facebook.cachedUserProfile.last_name;
 
       $http.get(path_url+'/api/v1/users/' + loginuser)
         .success(function(user) {
-        if (user.data == null){
-        $scope.signup(loginuser, authData.facebook.email, authData.facebook.id);
-        }
-        else{
-        Materialize.toast("Connexion réussi", 2000, "green");
-        $location.path("/map/"+user.data.id);
-        }
-        })
+          if (user.data == null){
+            $scope.signup(loginuser, authData.facebook.email, authData.facebook.id);
+          } else{
+            Materialize.toast("Connexion réussi", 2000, "green");
+            $location.path("/map/"+user.data.id);
+          }
+        });
     }).catch(function (err) {
       console.log(err)
     })
 
   }
 
-  /*$scope.twitter = function () {
-    var ref = new Firebase('https://here-and-now.firebaseio.com');
-    var authObject = $firebaseAuth(ref);
 
-    authObject.$authWithOAuthPopup('twitter', {
-                                               remember: "sessionOnly",
-                                               scope: "email"
-                                               }).then(function (authData) {
-      console.log(authData);
-      var loginuser = authData.twitter.displayName;
+  $scope.google = function () {
+
+
+    authObject.$authWithOAuthPopup('google', {
+      remember: "sessionOnly",
+      scope: "email"
+    }).then(function (authData) {
+      var loginuser = authData.google.cachedUserProfile.family_name + '_' + authData.google.cachedUserProfile.given_name;
 
       $http.get(path_url+'/api/v1/users/' + loginuser)
         .success(function(user) {
-        if (user.data == null){
-        $scope.signup(loginuser, authData.twitter.email, authData.twitter.id);
-        }
-        else{
-        Materialize.toast("Connexion réussi", 2000, "green");
-        $location.path("/map/"+user.data.id);
-        }
-        })
-
-    }).catch(function (err) {
-      console.log(err)
-    })
-
-  }*/
-
-  $scope.google = function () {
-    var ref = new Firebase('https://here-and-now.firebaseio.com');
-    var authObject = $firebaseAuth(ref);
-
-    authObject.$authWithOAuthPopup('google', {
-                                             remember: "sessionOnly",
-                                             scope: "email"
-                                           }).then(function (authData) {
-    console.log(authData);
-    var loginuser = authData.google.cachedUserProfile.family_name + '_' + authData.google.cachedUserProfile.given_name;
-
-    $http.get(path_url+'/api/v1/users/' + loginuser)
-            .success(function(user) {
-            if (user.data == null){
-            $scope.signup(loginuser, authData.google.email, authData.google.id);
+            if (user.data == null) {
+              $scope.signup(loginuser, authData.google.email, authData.google.id);
+            } else {
+              Materialize.toast("Connexion réussi", 2000, "green");
+              $location.path("/map/"+user.data.id);
             }
-            else{
-            Materialize.toast("Connexion réussi", 2000, "green");
-            $location.path("/map/"+user.data.id);
-            }
-            })
+        });
 
     }).catch(function (err) {
       console.log(err)
@@ -125,7 +95,7 @@ app
           console.log(data);
 
           Materialize.toast("Inscription réussi", 2000, "green");
-          $location.path("/interests/"+data.data.insertId);
+          $location.path("/interests/"+data.data.id);
         })
         .error(function(data, status) {
           console.log(status);

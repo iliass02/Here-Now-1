@@ -35,7 +35,7 @@ app
       $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
 
 
-      $http.get(path_url + '/api/v1/interests/user/' + $stateParams.user_id)
+      $http.get(path_url + '/api/v1/users/'+ $stateParams.user_id+'/interests')
         .success(function (data) {
           var interests = data.data;
           var allInterest;
@@ -48,9 +48,9 @@ app
 
           for (i = 0; i < interests.length; i ++) {
             if (i == 0) {
-              allInterest = interests[i].name;
+              allInterest = interests[i].interest.name;
             } else {
-              allInterest = allInterest+'|'+interests[i].name;
+              allInterest = allInterest+'|'+interests[i].interest.name;
             }
           }
 
