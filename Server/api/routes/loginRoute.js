@@ -1,53 +1,54 @@
 var mysql = require("mysql");
 var bcrypt = require("bcrypt-nodejs");
+var Sequelize = require('sequelize');
 
 module.exports = function(router, connection) {
+    //model
+    var users = require('../../models/users')(connection, Sequelize);
 
-        router.route("/signin")
-        // get all clients
-        .post(function(req, res) {
+    router.route("/signin")
+    // get all clients
+    .post(function(req, res) {
 
-            var login = req.body.login;
-            var password = req.body.password;
-            if(!login || !password ) {
-                res.status(500).send({
-                    "success": false,
-                    "error": "Login and Password are required"
-                });
-            } else {
-                var request = "SELECT * FROM ?? WHERE ?? = ? OR ?? = ?";
-                var table = ['users', 'login', login, 'email', login ];
-                request = mysql.format(request, table);
-                connection.query(request, function(err, data){
-                    if (err)
-                        res.status(500).send({
+        var login = req.body.login;
+        var password = req.body.password;
+        if(!login || !password ) {
+            res.status(500).send({
+                "success": false,
+                "error": "Login and Password are required"
+            });
+        } else {
+            users.findOne({
+                where: {
+                    login: login
+                }
+            }).then(function (user) {
+
+                if (user != null) {
+
+                    if(!bcrypt.compareSync(password, user.get('password'))) {
+                        res.status(401).send({
                             "success": false,
-                            "error": err
+                            "error": "Unauthorized : Password is incorrect"
                         });
-                    else{
-
-                        if (typeof data[0] == 'undefined') {
-                            res.status(401).send({
-                                "success": false,
-                                "error": "Unauthorized : User not found"
-                            });
-                        } else {
-                            if(!bcrypt.compareSync(password, data[0].password)) {
-                                res.status(401).send({
-                                    "success": false,
-                                    "error": "Unauthorized : Password is incorrect"
-                                });
-                            } else {
-                                res.status(200).send({
-                                    "success": true,
-                                    "data": data
-                                })
-                            }
-                        }
+                    } else {
+                        res.status(200).send({
+                            "success": true,
+                            "data": user
+                        })
                     }
-                });
-            }
-        })
+                } else {
+                    res.status(401).send({
+                        "success": false,
+                        "error": "Unauthorized : User not found"
+                    });
+                }
+
+
+            });
+        }
+        
+    })
 
     router.route("/signup")
         .post(function(req, res) {
@@ -67,52 +68,36 @@ module.exports = function(router, connection) {
                 /**
                  * Check if user exist
                  */
-                var request = "SELECT * FROM ?? WHERE ?? = ? OR ?? = ?";
-                var table = ['users', 'login', login, 'email', login ];
-                request = mysql.format(request, table);
-                connection.query(request, function(err, data) {
+                users.findOne({
+                    where : {
+                        $or : [{
+                            email: email
+                        }, {
+                            login: login
+                        }]
+                    }
+                }).then(function(user) {
 
-                    if (err)
-                        res.status(500).send({
-                            "success": false,
-                            "error": err
+                    if (user == null) {
+                        password = bcrypt.hashSync(password);
+
+                        users.create({
+                            login: login,
+                            password: password,
+                            email: email
+                        }).then(function (success) {
+                            res.status(200).send({
+                               success: true,
+                                data: success
+                            });
                         });
-                    else {
-
-                        if (typeof data[0] != 'undefined') {
-                            res.status(401).send({
-                                "success": false,
-                                "error": "Unauthorized : User exist"
-                            });
-                        } else {
-
-                            /**
-                            * Signup
-                            */
-
-                            password = bcrypt.hashSync(password);
-
-                            var request = "INSERT INTO ?? (??, ??, ??) VALUES (?, ?, ?)";
-                            var table = ['users', 'login', 'email', 'password', login, email, password];
-                            request = mysql.format(request, table);
-                            connection.query(request, function (err, data) {
-                                if (err) {
-                                    res.status(500).send({
-                                        "success": false,
-                                        "error": err
-                                    });
-                                } else if (data) {
-
-                                    res.status(200).send({
-                                        "success": true,
-                                        "data": data
-                                    });
-                                }
-                            });
-                        }
+                    } else {
+                        res.status(401).send({
+                            "success": false,
+                            "error": "Unauthorized : User exist"
+                        });
                     }
                 });
-
             }
 
 
