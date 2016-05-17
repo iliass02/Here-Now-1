@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('map', {
-      url: '/map',
+      url: '/map/:userId',
       views: {
         '': {
           templateUrl: 'templates/map.html',
