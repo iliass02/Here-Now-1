@@ -1,6 +1,46 @@
 app
 
-.controller('SigninCtrl', function ($scope, $http, $location) {
+.controller('SigninCtrl', function ($scope, $http, $location, $firebaseAuth) {
+
+  $scope.facebook = function () {
+    var ref = new Firebase('https://here-and-now.firebaseio.com');
+    var authObject = $firebaseAuth(ref);
+
+    authObject.$authWithOAuthPopup('facebook').then(function (authData) {
+      console.log(authData);
+      alert ('cool');
+    }).catch(function (err) {
+      console.log(err)
+    })
+
+  }
+
+  $scope.twitter = function () {
+    var ref = new Firebase('https://here-and-now.firebaseio.com');
+    var authObject = $firebaseAuth(ref);
+
+    authObject.$authWithOAuthPopup('twitter').then(function (authData) {
+      console.log(authData);
+      alert ('cool');
+    }).catch(function (err) {
+      console.log(err)
+    })
+
+  }
+
+  $scope.google = function () {
+    var ref = new Firebase('https://here-and-now.firebaseio.com');
+    var authObject = $firebaseAuth(ref);
+
+    authObject.$authWithOAuthPopup('google').then(function (authData) {
+      console.log(authData);
+      alert ('cool');
+    }).catch(function (err) {
+      console.log(err)
+    })
+
+  }
+
 
   $scope.connect = function (login, password) {
 
