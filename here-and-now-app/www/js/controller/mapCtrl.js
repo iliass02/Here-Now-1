@@ -80,8 +80,7 @@ app
         address: address,
         latitude: latitude,
         longitude: longitude
-      }
-      console.log(data);
+      };
 
       $http.post(path_url+'/api/v1/users/'+$stateParams.userId+'/interests/favorites', data)
         .success(function (data) {
@@ -93,8 +92,8 @@ app
           } else {
             Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
           }
-        })
+        });
 
     }
 
-  })
+  });
