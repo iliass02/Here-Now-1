@@ -87,7 +87,6 @@ module.exports = function(router, connection) {
         })
 
         .get(function (req, res) {
-
             var userId = req.params.userId;
 
             favorites.findAll().then(function(favorites) {
@@ -101,6 +100,38 @@ module.exports = function(router, connection) {
                     error: err
                 });
             });
+
+        })
+
+    router.route('/interests/user/:user_id')
+        .get(function (req, res) {
+
+            var user_id = req.params.user_id;
+            if(!user_id) {
+                res.status(500).send({
+                    success: false,
+                    error: 'User_id parameter is required'
+                });
+            } else {
+                var request = "SELECT i.name name FROM users_interest as ui, interest as i WHERE ui.user_id = ? AND ui.interest_id = i.id";
+                var table = [user_id];
+                request = mysql.format(request, table);
+                connection.query(request,function (err, data) {
+
+                    if(err) {
+                        res.status(500).send({
+                            success: false,
+                            error: err
+                        });
+                    } else {
+                        res.status(200).send({
+                            success: true,
+                            data: data
+                        });
+                    }
+
+                });
+            }
 
         })
 
