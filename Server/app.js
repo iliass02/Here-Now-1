@@ -37,6 +37,7 @@ app.get('/api/v1/', function(req, res) {
 
 require('./api/routes/loginRoute.js')(router, sequelize, mysql);
 require('./api/routes/interestsRoute.js')(router, sequelize, mysql);
+require('./api/routes/usersRoutes.js')(router, sequelize, mysql);
 
 app.use('/api/v1/', router);
 app.listen(port);
