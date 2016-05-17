@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 //path_url = "http://debian.dev:3000";
-path_url = "http://192.168.0.16:3000";
+path_url = "http://localhost:3000";
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
