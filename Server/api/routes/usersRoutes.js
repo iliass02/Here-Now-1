@@ -17,13 +17,34 @@ module.exports = function(router, connection) {
 
         });
 
-    router.route('/users/:userId')
+    router.route('/users/:user')
         .get(function (req, res) {
-            var userId  = req.params.userId;
+            var user  = req.params.user;
 
             users.findOne({
                 where: {
-                    id: userId
+                    $or: [{
+                        id: user
+                    }, {
+                        login: user
+                    }]
+                }
+            }).then(function (user) {
+                res.status(200).send({
+                    success: true,
+                    data: user
+                });
+            })
+
+        })
+
+    router.route('/users/:login')
+        .get(function (req, res) {
+            var login  = req.params.login;
+
+            users.findOne({
+                where: {
+                    login: login
                 }
             }).then(function (user) {
                 res.status(200).send({
