@@ -50,4 +50,14 @@ Mac OS X - Linux
 
 - Emulation App Android
 
-     En cours
+     ```shell
+     cd here-and-now-app
+     ionic android run
+     ```
+     
+Génération des models (ORM => sequelize)
+
+```shell
+cd Server
+sequelize-auto -o "./models" -d Here-and-now -h localhost -u root -p 3306 -x root -e mysql
+```

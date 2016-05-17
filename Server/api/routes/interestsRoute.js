@@ -24,7 +24,6 @@ module.exports = function(router, connection) {
 
         })
 
-
     router.route('/users/:userId/interests/favorites')
         /*
         POST favorites interest by userId
@@ -44,20 +43,46 @@ module.exports = function(router, connection) {
                     error: "adresse, name, latitude, longitude parameters are required !"
                 });
             } else {
-                Favorites.create({
-                    address: address,
-                    name: name,
-                    latitude: latitude,
-                    longitude: longitude,
-                    user_id: userId
+
+                Favorites.findAll({
+                    where: {
+                        latitude: latitude,
+                        longitude: longitude,
+                        user_id: userId
+                    }
                 }).then(function (favorite) {
-                    res.status(200).send({
-                        success: true,
-                        data: favorite
-                    });
+
+                    console.log(favorite);
+
+                    if (favorite.length == 0) {
+                        Favorites.create({
+                            address: address,
+                            name: name,
+                            latitude: latitude,
+                            longitude: longitude,
+                            user_id: userId
+                        }).then(function (favorite) {
+                            res.status(200).send({
+                                success: true,
+                                data: favorite
+                            });
+                        }).error(function (err) {
+                            res.status(500).send({
+                                success: true,
+                                error: err
+                            });
+                        });
+                    } else {
+                        res.status(401).send({
+                            success: true,
+                            error: "this address is already exist in your favorites !"
+                        });
+                    }
+
+
                 }).error(function (err) {
                     res.status(500).send({
-                        success: true,
+                        success: false,
                         error: err
                     });
                 });
@@ -71,7 +96,11 @@ module.exports = function(router, connection) {
         .get(function (req, res) {
             var userId = req.params.userId;
 
-            Favorites.findAll().then(function(favorites) {
+            Favorites.findAll({
+                where: {
+                    user_id: userId
+                }
+            }).then(function(favorites) {
                res.status(200).send({
                    success: true,
                    data: favorites

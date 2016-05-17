@@ -27,12 +27,14 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: ''
     },
     latitude: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: ''
     },
     longitude: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: ''
     }
   }, {
     tableName: 'favorites'

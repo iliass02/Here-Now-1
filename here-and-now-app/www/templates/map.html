@@ -11,6 +11,9 @@
         <info-window id="foo-iw">
           <div ng-non-bindable="">
             {{vm.interest.name}}
+            <a href=""
+               ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+              Ajouter au favoris</a>
           </div>
         </info-window>
       </ng-map>

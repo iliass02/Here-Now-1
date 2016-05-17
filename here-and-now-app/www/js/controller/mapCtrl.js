@@ -4,13 +4,11 @@ app
     var options = {timeout: 10000, enableHighAccuracy: true};
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
+    var userId = $stateParams.userId;
+
     NgMap.getMap().then(function(map) {
       vm.map = map;
     });
-
-    // vm.clicked = function() {
-    //   alert('Clicked a link inside infoWindow');
-    // };
 
     vm.showDetail = function(e, interest) {
       console.log(interest);
@@ -72,5 +70,31 @@ app
           console.log(err);
         });
     });
+
+
+    $scope.addFavorites = function (name, address, latitude, longitude) {
+
+      var data = {
+        userId: userId,
+        name: name,
+        address: address,
+        latitude: latitude,
+        longitude: longitude
+      }
+      console.log(data);
+
+      $http.post(path_url+'/api/v1/users/'+$stateParams.userId+'/interests/favorites', data)
+        .success(function (data) {
+          Materialize.toast("Ajout en favoris réussi", 2000, "green");
+        })
+        .error(function (err, status) {
+          if (status == 401) {
+            Materialize.toast("Erreur : Ce point d'intérêt est déjà dans vos favoris !", 1500, "red");
+          } else {
+            Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
+          }
+        })
+
+    }
 
   })
