@@ -96,4 +96,11 @@ app
 
     }
 
+
+    $scope.directions = function (latitude, longitude) {
+      
+      $scope.direction = latitude+', '+longitude;
+      $scope.itineraire = true;
+    }
+
   });
