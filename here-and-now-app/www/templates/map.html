@@ -14,8 +14,20 @@
             <a href=""
                ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
               Ajouter au favoris</a>
+            <a href=""
+               ng-click="directions(vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+              Directions</a>
           </div>
         </info-window>
+
+        <div ng-if="itineraire">
+          <directions
+            draggable="false"
+            travel-mode="WALKING"
+            origin="current-location"
+            destination="{{direction}}">
+          </directions>
+        </div>
       </ng-map>
 
     </div>
