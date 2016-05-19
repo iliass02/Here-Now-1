@@ -33,7 +33,7 @@ app
       $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
 
 
-      $http.get(path_url + '/api/v1/users/'+ $stateParams.user_id+'/interests')
+      $http.get(path_url + '/api/v1/users/'+ $stateParams.userId+'/interests')
         .success(function (data) {
           var interests = data.data;
           var allInterest;
@@ -98,7 +98,7 @@ app
 
 
     $scope.directions = function (latitude, longitude) {
-      
+
       $scope.direction = latitude+', '+longitude;
       $scope.itineraire = true;
     }
