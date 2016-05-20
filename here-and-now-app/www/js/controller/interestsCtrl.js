@@ -40,15 +40,14 @@ app
   $scope.newInterests = function(interests_id) {
 
     var data = {
-      'interests_id': interests_id,
-      'user_id': $stateParams.user_id
+      'interests_id': interests_id
     };
 
 
-    $http.post(path_url+"/api/v1/interests", data)
+    $http.post(path_url+"/api/v1/users/"+$stateParams.user_id+"/interests", data)
       .success(function (data) {
         Materialize.toast("Ajout des centres d'intérêts réussi", 2000, "green");
-        $location.path('/tab/dash');
+        $location.path('/map/'+$stateParams.user_id);
       })
       .error(function (data, status) {
         if (status == 500) {

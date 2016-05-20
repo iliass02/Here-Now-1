@@ -1,62 +1,106 @@
 app
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading) {
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap) {
     var options = {timeout: 10000, enableHighAccuracy: true};
+    var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
+    var vm = this;
+    var userId = $stateParams.userId;
+
+    NgMap.getMap().then(function(map) {
+      vm.map = map;
+    });
+
+    vm.showDetail = function(e, interest) {
+      console.log(interest);
+      vm.interest = interest;
+      console.log(interest.id);
+      vm.map.showInfoWindow('foo-iw', interest.id);
+    };
+
 
     $ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
-    ionic.Platform.ready( function() {  
+    $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key="+GoogleKey;
 
-      var myLatlng = new google.maps.LatLng(48.8534100, 2.3488000);  
-      var mapOptions = { 
-        center: myLatlng, 
-        zoom: 12, 
-        mapTypeId: google.maps.MapTypeId.ROADMAP 
-      };  
 
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-      $cordovaGeolocation.getCurrentPosition(options).then(function(position){  
-        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  
-        map.setCenter(latLng); 
 
-        var marker = new google.maps.Marker({
-          map: $scope.map,
-          animation: google.maps.Animation.DROP,
-          position: latLng
+
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+
+      $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
+
+
+      $http.get(path_url + '/api/v1/users/'+ $stateParams.userId+'/interests')
+        .success(function (data) {
+          var interests = data.data;
+          var allInterest;
+          var params = {
+            location: position.coords.latitude+', '+position.coords.longitude,
+            radius: 100,
+            types: allInterest,
+            key: 'AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8'
+          };
+
+          for (i = 0; i < interests.length; i ++) {
+            if (i == 0) {
+              allInterest = interests[i].interest.name;
+            } else {
+              allInterest = allInterest+'|'+interests[i].interest.name;
+            }
+          }
+
+
+          $http.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json", {params: params})
+            .success(function (data) {
+              console.log(allInterest);
+              $scope.interests = data.results;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              $ionicLoading.hide();
+            });
+
+        })
+        .error(function (err) {
+          console.log(err);
         });
-
-        var infoWindow = new google.maps.InfoWindow({
-          content: "My Location"
-        });
-
-        google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open($scope.map, marker);
-        });
-
-        var marker2 = new google.maps.Marker({
-          map: $scope.map,
-          animation: google.maps.Animation.DROP,
-          position: myLatlng
-        });
-
-        var infoWindow2 = new google.maps.InfoWindow({
-          content: "Paris"
-        });
-
-        google.maps.event.addListener(marker2, 'click', function () {
-          infoWindow2.open($scope.map, marker2);
-        });
-
-      }).finally(function () { 
-        $ionicLoading.hide(); 
-      });
-
-      $scope.map = map;
-
     });
 
 
-  })
+    $scope.addFavorites = function (name, address, latitude, longitude) {
+
+      var data = {
+        userId: userId,
+        name: name,
+        address: address,
+        latitude: latitude,
+        longitude: longitude
+      };
+
+      $http.post(path_url+'/api/v1/users/'+$stateParams.userId+'/interests/favorites', data)
+        .success(function (data) {
+          Materialize.toast("Ajout en favoris réussi", 2000, "green");
+        })
+        .error(function (err, status) {
+          if (status == 401) {
+            Materialize.toast("Erreur : Ce point d'intérêt est déjà dans vos favoris !", 1500, "red");
+          } else {
+            Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
+          }
+        });
+
+    }
+
+
+    $scope.directions = function (latitude, longitude) {
+
+      $scope.direction = latitude+', '+longitude;
+      $scope.itineraire = true;
+    }
+
+  });
