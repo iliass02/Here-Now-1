@@ -7,9 +7,13 @@ app
 
   $scope.facebook = function () {
 
-    authObject.$authWithOAuthPopup('facebook').then(function (authData) {
+    authObject.$authWithOAuthPopup('facebook', {
+      remember: "sessionOnly",
+      scope: "email"
+    }).then(function (authData) {
       var loginuser = authData.facebook.cachedUserProfile.first_name + '_' + authData.facebook.cachedUserProfile.last_name;
 
+      console.log(authData);
       $http.get(path_url+'/api/v1/users/' + loginuser)
         .success(function(user) {
           if (user.data == null){

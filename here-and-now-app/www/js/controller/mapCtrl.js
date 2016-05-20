@@ -37,12 +37,6 @@ app
         .success(function (data) {
           var interests = data.data;
           var allInterest;
-          var params = {
-            location: position.coords.latitude+', '+position.coords.longitude,
-            radius: 100,
-            types: allInterest,
-            key: 'AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8'
-          };
 
           for (i = 0; i < interests.length; i ++) {
             if (i == 0) {
@@ -51,6 +45,14 @@ app
               allInterest = allInterest+'|'+interests[i].interest.name;
             }
           }
+          
+          var params = {
+            location: position.coords.latitude+', '+position.coords.longitude,
+            radius: 100,
+            types: allInterest,
+            key: 'AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8'
+          };
+
 
 
           $http.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json", {params: params})
