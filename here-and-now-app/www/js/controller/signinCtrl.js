@@ -70,7 +70,7 @@ app
       .success(function(data) {
         console.log(data);
         Materialize.toast("Connexion réussi", 2000, "green");
-        $location.path("/map/"+data.data[0].id);
+        $location.path("/map/"+data.data.id);
       })
       .error(function(data, status) {
         console.log(data);
