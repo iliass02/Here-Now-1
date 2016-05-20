@@ -5,33 +5,36 @@
       <center><img src="../img/logo.png" width="150" ></center>
     </div>
     <div class="padding">
-    <form>
-
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="email" type="text" class="validate" data-ng-model="user.login">
-          <label for="email">Email / Login</label>
-      </div>
-      </div>
-
+      <form>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="email" type="text" class="validate" data-ng-model="user.login">
+            <label for="email">Email / Login</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" data-ng-model="user.password">
+            <label for="password">Password</label>
+          </div>
+        </div>
+      </form>
+    </div>
     <div class="row">
-       <div class="input-field col s12">
-         <input id="password" type="password" class="validate" data-ng-model="user.password">
-         <label for="password">Password</label>
-     </div>
-     </div>
-   </form>
- </div>
- <div class="button-signin">
- <center><a class="waves-effect waves-light btn" ng-click="connect(user.login, user.password)" >Connexion</a></center>
-   <br>
-   <center><div>
-     <a class="waves-effect waves-light btn" ng-click="facebook()" >Facebook</a>
-     <a class="waves-effect waves-light btn" ng-click="twitter()" >Twitter</a>
-     <a class="waves-effect waves-light btn" ng-click="google()" >Google</a>
-   </div></center>
-</div>
-    <br>
- <center><a href="#/signup">Créer un compte</a></center>
+      <button class="button button-block waves-effect waves-light button-dark" ng-click="connect(user.login, user.password)">Connexion</button>
+    </div>
+    <div class="row">
+      <div class="col s6">
+        <button class="button button-full waves-effect waves-light button-positive" ng-click="facebook()"><i class="fa fa-facebook"></i> facebook</button>
+      </div>
+      <div class="col s6">
+        <button class="button button-full waves-effect waves-light button-assertive" ng-click="google()"><i class="fa fa-google"></i> Google</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <center><a class="center" href="#/signup">Créer un compte</a></center>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
