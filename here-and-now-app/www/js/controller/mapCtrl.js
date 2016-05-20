@@ -45,7 +45,7 @@ app
               allInterest = allInterest+'|'+interests[i].interest.name;
             }
           }
-          
+
           var params = {
             location: position.coords.latitude+', '+position.coords.longitude,
             radius: 100,
