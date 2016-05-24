@@ -5,6 +5,7 @@ app
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
     var userId = $stateParams.userId;
+    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 5000 });
 
     NgMap.getMap().then(function(map) {
       vm.map = map;
@@ -27,9 +28,7 @@ app
 
 
 
-
-    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
-
+    function GetPosition (position) {
       $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
 
 
@@ -48,7 +47,7 @@ app
 
           var params = {
             location: position.coords.latitude+', '+position.coords.longitude,
-            radius: 100,
+            radius: 200,
             types: allInterest,
             key: 'AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8'
           };
@@ -71,6 +70,12 @@ app
         .error(function (err) {
           console.log(err);
         });
+    }
+
+
+
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+      GetPosition(position);
     });
 
 
@@ -103,6 +108,20 @@ app
 
       $scope.direction = latitude+', '+longitude;
       $scope.itineraire = true;
+    }
+
+
+    /*
+    Callback for watch position
+     */
+    function onSuccess(position) {
+      console.log(position);
+      GetPosition(position);
+    }
+
+    function onError(error) {
+      alert('code: '    + error.code    + '\n' +
+        'message: ' + error.message + '\n');
     }
 
   });
