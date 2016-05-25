@@ -1,6 +1,6 @@
 app
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap) {
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap, UsersFct) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
@@ -125,3 +125,5 @@ app
     }
 
   });
+
+

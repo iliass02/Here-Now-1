@@ -1,6 +1,6 @@
 app
 
-.controller('SigninCtrl', function ($scope, $http, $location, $firebaseAuth) {
+.controller('SigninCtrl', function ($scope, $http, $location, $firebaseAuth, UsersFct) {
 
   var ref = new Firebase('https://here-and-now.firebaseio.com');
   var authObject = $firebaseAuth(ref);
@@ -14,7 +14,7 @@ app
       var loginuser = authData.facebook.cachedUserProfile.first_name + '_' + authData.facebook.cachedUserProfile.last_name;
 
       console.log(authData);
-      $http.get(path_url+'/api/v1/users/' + loginuser)
+      UsersFct.findUserByLogin(loginuser)
         .success(function(user) {
           if (user.data == null){
             $scope.signup(loginuser, authData.facebook.email, authData.facebook.id);
@@ -39,7 +39,7 @@ app
     }).then(function (authData) {
       var loginuser = authData.google.cachedUserProfile.family_name + '_' + authData.google.cachedUserProfile.given_name;
 
-      $http.get(path_url+'/api/v1/users/' + loginuser)
+      UsersFct.findUserByLogin(loginuser)
         .success(function(user) {
             if (user.data == null) {
               $scope.signup(loginuser, authData.google.email, authData.google.id);
@@ -66,7 +66,7 @@ app
 
     console.log(data);
 
-    $http.post(path_url+'/api/v1/signin', data)
+    UsersFct.signin(data)
       .success(function(data) {
         console.log(data);
         Materialize.toast("Connexion réussi", 2000, "green");
@@ -94,7 +94,7 @@ app
         password: password
       }
 
-      $http.post(path_url+'/api/v1/signup', data)
+      UsersFct.signup(data)
         .success(function(data) {
           console.log(data);
 
