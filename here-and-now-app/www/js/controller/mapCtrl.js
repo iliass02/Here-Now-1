@@ -1,62 +1,108 @@
 app
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading) {
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap, MapFct) {
     var options = {timeout: 10000, enableHighAccuracy: true};
+    var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
+    var vm = this;
+    var userId = $stateParams.userId;
+    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
+
+    NgMap.getMap().then(function(map) {
+      vm.map = map;
+    });
+
+    vm.showDetail = function(e, interest) {
+      console.log(interest);
+      vm.interest = interest;
+      console.log(interest.id);
+      vm.map.showInfoWindow('foo-iw', interest.id);
+    };
 
     $ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
-    ionic.Platform.ready( function() {  
+    $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key="+GoogleKey;
 
-      var myLatlng = new google.maps.LatLng(48.8534100, 2.3488000);  
-      var mapOptions = { 
-        center: myLatlng, 
-        zoom: 12, 
-        mapTypeId: google.maps.MapTypeId.ROADMAP 
-      };  
-
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-      $cordovaGeolocation.getCurrentPosition(options).then(function(position){  
-        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);  
-        map.setCenter(latLng); 
-
-        var marker = new google.maps.Marker({
-          map: $scope.map,
-          animation: google.maps.Animation.DROP,
-          position: latLng
-        });
-
-        var infoWindow = new google.maps.InfoWindow({
-          content: "My Location"
-        });
-
-        google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open($scope.map, marker);
-        });
-
-        var marker2 = new google.maps.Marker({
-          map: $scope.map,
-          animation: google.maps.Animation.DROP,
-          position: myLatlng
-        });
-
-        var infoWindow2 = new google.maps.InfoWindow({
-          content: "Paris"
-        });
-
-        google.maps.event.addListener(marker2, 'click', function () {
-          infoWindow2.open($scope.map, marker2);
-        });
-
-      }).finally(function () { 
-        $ionicLoading.hide(); 
-      });
-
-      $scope.map = map;
-
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+      GetPosition(position);
     });
 
+    $scope.addFavorites = function (name, address, latitude, longitude) {
 
-  })
+      var data = {
+        userId: userId,
+        name: name,
+        address: address,
+        latitude: latitude,
+        longitude: longitude
+      };
+
+      $http.post(path_url+'/api/v1/users/'+$stateParams.userId+'/interests/favorites', data)
+        .success(function (data) {
+          Materialize.toast("Ajout en favoris réussi", 2000, "green");
+        })
+        .error(function (err, status) {
+          if (status == 401) {
+            Materialize.toast("Erreur : Ce point d'intérêt est déjà dans vos favoris !", 1500, "red");
+          } else {
+            Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
+          }
+        });
+
+    };
+
+
+    $scope.directions = function (latitude, longitude) {
+
+      $scope.direction = latitude+', '+longitude;
+      $scope.itineraire = true;
+    };
+
+
+    //callback for geolocation watch
+    function onSuccess(position) {
+      console.log(position);
+      GetPosition(position);
+    }
+
+    //callback for geolocation watch
+    function onError(error) {
+      console.log('code: '    + error.code    + '\n' +
+        'message: ' + error.message + '\n');
+    }
+
+    //function get 
+    function GetPosition (position) {
+      $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
+      MapFct.getUserInterest(userId)
+        .success(function (data) {
+          var interests = data.data;
+          var allInterest;
+
+          for (i = 0; i < interests.length; i ++) {
+            if (i == 0) {
+              allInterest = interests[i].interest.name;
+            } else {
+              allInterest = allInterest+'|'+interests[i].interest.name;
+            }
+          }
+          MapFct.getGoogleInterestsByUserInterests(position, allInterest)
+            .success(function (data) {
+              $scope.interests = data.results;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              $ionicLoading.hide();
+            });
+        })
+        .error(function (err) {
+          console.log(err);
+        });
+    }
+
+  });
+
+

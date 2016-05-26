@@ -1,19 +1,12 @@
 app
 
-.controller("InterestsCtrl", ['$scope', '$stateParams', '$http', '$location', function ($scope, $stateParams, $http, $location)  {
-
-
-  console.log($stateParams.user_id);
+.controller("InterestsCtrl", function ($scope, $stateParams, $http, $location, InterestsFct)  {
 
   // list dynamic checkboxes
   $scope.roles = [];
   $scope.user = {
     roles: []
   };
-
-  $scope.test = function () {
-    console.log($scope.user.roles);
-  }
 
   $scope.checkAll = function() {
     $scope.user.roles = angular.copy($scope.roles);
@@ -27,30 +20,32 @@ app
   };
 
   //Get all interests
-  $http.get(path_url+'/api/v1/interests')
+  InterestsFct.getInterests()
     .success(function(data) {
       console.log(data);
       $scope.roles = data.data;
     })
     .error(function(data) {
       console.log(data);
-    })
+    });
+
 
 
   $scope.newInterests = function(interests_id) {
 
     var data = {
-      'interests_id': interests_id,
-      'user_id': $stateParams.user_id
+      'interests_id': interests_id
     };
+    var userId = $stateParams.user_id;
 
-
-    $http.post(path_url+"/api/v1/interests", data)
+    //post new interest for current user
+    InterestsFct.postInterests(data, userId)
       .success(function (data) {
         Materialize.toast("Ajout des centres d'intérêts réussi", 2000, "green");
-        $location.path('/tab/dash');
+        $location.path('/map/'+userId);
       })
       .error(function (data, status) {
+        //gest error
         if (status == 500) {
           Materialize.toast("Erreur : Vous devez selectionner au moins 1 centre d'intérêt", 1500, "red");
         } else {
@@ -61,4 +56,4 @@ app
   }
 
 
-}]);
+});
