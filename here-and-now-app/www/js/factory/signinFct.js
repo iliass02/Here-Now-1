@@ -1,7 +1,4 @@
 angular.module('usersFactory', [])
-
-// super simple service
-// each function returns a promise object
   .factory('UsersFct', function($http) {
     return {
       getUsers : function() {
@@ -15,7 +12,12 @@ angular.module('usersFactory', [])
       },
       findUserByLogin : function(login) {
         return $http.get(path_url+'/api/v1/users/' + login);
+      },
+      socialSignin : function(authObject, social) {
+        return authObject.$authWithOAuthPopup(social, {
+          remember: "sessionOnly",
+          scope: "email"
+        });
       }
-
     }
   });

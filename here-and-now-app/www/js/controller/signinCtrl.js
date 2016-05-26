@@ -1,80 +1,76 @@
 app
 
-.controller('SigninCtrl', function ($scope, $http, $location, $firebaseAuth, UsersFct) {
+.controller('SigninCtrl', function ($scope, $location, $firebaseAuth, UsersFct) {
 
   var ref = new Firebase('https://here-and-now.firebaseio.com');
   var authObject = $firebaseAuth(ref);
 
   $scope.facebook = function () {
 
-    authObject.$authWithOAuthPopup('facebook', {
-      remember: "sessionOnly",
-      scope: "email"
-    }).then(function (authData) {
-      var loginuser = authData.facebook.cachedUserProfile.first_name + '_' + authData.facebook.cachedUserProfile.last_name;
+    UsersFct.socialSignin(authObject, 'facebook')
+      .then(function(authData) {
+        //get user login facebook
+        var firstname = authData.facebook.cachedUserProfile.first_name;
+        var lastname = authData.facebook.cachedUserProfile.last_name;
+        var loginuser = firstname + '_' + lastname;
 
-      console.log(authData);
-      UsersFct.findUserByLogin(loginuser)
-        .success(function(user) {
-          if (user.data == null){
-            $scope.signup(loginuser, authData.facebook.email, authData.facebook.id);
-          } else{
-            Materialize.toast("Connexion réussi", 2000, "green");
-            $location.path("/map/"+user.data.id);
-          }
-        });
-    }).catch(function (err) {
-      console.log(err)
-    })
+        //find user by login
+        UsersFct.findUserByLogin(loginuser)
+          .success(function(user) {
+            if (user.data == null){
+              //user doesn't exist => signup
+              $scope.signup(loginuser, authData.facebook.email, authData.facebook.id);
+            } else{
+              //user exist => signin
+              Materialize.toast("Connexion réussi", 2000, "green");
+              $location.path("/map/"+user.data.id);
+            }
+          });
+      });
 
-  }
+  };
 
 
   $scope.google = function () {
 
+    UsersFct.socialSignin(authObject, 'google')
+      .then(function(authData) {
+        //get user login google
+        var firstname = authData.google.cachedUserProfile.family_name;
+        var lastname = authData.google.cachedUserProfile.given_name;
+        var loginuser = firstname + '_' + lastname;
 
-    authObject.$authWithOAuthPopup('google', {
-      remember: "sessionOnly",
-      scope: "email"
-    }).then(function (authData) {
-      var loginuser = authData.google.cachedUserProfile.family_name + '_' + authData.google.cachedUserProfile.given_name;
-
-      UsersFct.findUserByLogin(loginuser)
-        .success(function(user) {
-            if (user.data == null) {
+        //find user by login
+        UsersFct.findUserByLogin(loginuser)
+          .success(function(user) {
+            if (user.data == null){
+              //user doesn't exist => signup
               $scope.signup(loginuser, authData.google.email, authData.google.id);
-            } else {
+            } else{
+              //user exist => signin
               Materialize.toast("Connexion réussi", 2000, "green");
               $location.path("/map/"+user.data.id);
             }
-        });
+          });
+      });
 
-    }).catch(function (err) {
-      console.log(err)
-    })
-
-  }
+  };
 
 
   $scope.connect = function (login, password) {
-
 
     var data = {
       login: login,
       password: password
     };
 
-    console.log(data);
-
     UsersFct.signin(data)
       .success(function(data) {
-        console.log(data);
         Materialize.toast("Connexion réussi", 2000, "green");
         $location.path("/map/"+data.data.id);
       })
       .error(function(data, status) {
-        console.log(data);
-
+        //gest error
         if (status == 500) {
           Materialize.toast("Erreur : tous les champs sont requis", 1500, "red");
         } else if (status == 401) {
@@ -84,7 +80,7 @@ app
         }
       });
 
-  }
+  };
 
   $scope.signup = function (login, email, password) {
 
@@ -92,19 +88,15 @@ app
         login: login,
         email: email,
         password: password
-      }
+      };
 
       UsersFct.signup(data)
         .success(function(data) {
-          console.log(data);
-
           Materialize.toast("Inscription réussi", 2000, "green");
           $location.path("/interests/"+data.data.id);
         })
         .error(function(data, status) {
-          console.log(status);
-          console.log(data);
-
+          //gest error
           if (status == 500) {
             Materialize.toast("Erreur : tous les champs sont requis !", 1500, "red");
           } else if (status == 401) {
@@ -112,9 +104,8 @@ app
           } else {
             Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
           }
-        })
+        });
+    
+  }
 
-    }
-
-
-})
+});
