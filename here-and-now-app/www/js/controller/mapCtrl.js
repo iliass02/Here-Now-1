@@ -5,7 +5,7 @@ app
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
     var userId = $stateParams.userId;
-    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 5000 });
+    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
 
     NgMap.getMap().then(function(map) {
       vm.map = map;
@@ -120,7 +120,7 @@ app
     }
 
     function onError(error) {
-      alert('code: '    + error.code    + '\n' +
+      console.log('code: '    + error.code    + '\n' +
         'message: ' + error.message + '\n');
     }
 
