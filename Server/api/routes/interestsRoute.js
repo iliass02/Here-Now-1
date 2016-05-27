@@ -112,7 +112,35 @@ module.exports = function(router, connection) {
                 });
             });
 
-        })
+        });
+
+    router.route('/interests/favorites/:favoriteId')
+        .delete(function (req, res) {
+            var favoriteId = req.params.favoriteId;
+
+            if (!favoriteId) {
+                res.status(500).send({
+                   success: false,
+                    error: "favoriteId params is required !"
+                });
+            } else {
+                Favorites.destroy({
+                    where: {
+                        id: favoriteId
+                    }
+                }).then(function(ok) {
+                    res.status(200).send({
+                        success: true,
+                        data: ok
+                    });
+                }).error(function (err) {
+                    res.status(500).send({
+                        success: false,
+                        data: err
+                    });
+                });
+            }
+        });
 
     router.route('/users/:userId/interests')
         /*

@@ -1,10 +1,13 @@
 app
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap) {
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap, MapFct) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
     var userId = $stateParams.userId;
+    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
+
+    $scope.userId = userId;
 
     NgMap.getMap().then(function(map) {
       vm.map = map;
@@ -17,60 +20,15 @@ app
       vm.map.showInfoWindow('foo-iw', interest.id);
     };
 
-
     $ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
     $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key="+GoogleKey;
 
-
-
-
-
     $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
-
-      $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
-
-
-      $http.get(path_url + '/api/v1/users/'+ $stateParams.userId+'/interests')
-        .success(function (data) {
-          var interests = data.data;
-          var allInterest;
-          var params = {
-            location: position.coords.latitude+', '+position.coords.longitude,
-            radius: 100,
-            types: allInterest,
-            key: 'AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8'
-          };
-
-          for (i = 0; i < interests.length; i ++) {
-            if (i == 0) {
-              allInterest = interests[i].interest.name;
-            } else {
-              allInterest = allInterest+'|'+interests[i].interest.name;
-            }
-          }
-
-
-          $http.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json", {params: params})
-            .success(function (data) {
-              console.log(allInterest);
-              $scope.interests = data.results;
-            })
-            .error(function (err) {
-              console.log(err);
-            })
-            .finally(function () {
-              $ionicLoading.hide();
-            });
-
-        })
-        .error(function (err) {
-          console.log(err);
-        });
+      GetPosition(position);
     });
-
 
     $scope.addFavorites = function (name, address, latitude, longitude) {
 
@@ -94,13 +52,59 @@ app
           }
         });
 
-    }
+    };
 
 
     $scope.directions = function (latitude, longitude) {
 
       $scope.direction = latitude+', '+longitude;
       $scope.itineraire = true;
+    };
+
+
+    //callback for geolocation watch
+    function onSuccess(position) {
+      console.log(position);
+      GetPosition(position);
+    }
+
+    //callback for geolocation watch
+    function onError(error) {
+      console.log('code: '    + error.code    + '\n' +
+        'message: ' + error.message + '\n');
+    }
+
+    //function get
+    function GetPosition (position) {
+      $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
+      MapFct.getUserInterest(userId)
+        .success(function (data) {
+          var interests = data.data;
+          var allInterest;
+
+          for (i = 0; i < interests.length; i ++) {
+            if (i == 0) {
+              allInterest = interests[i].interest.name;
+            } else {
+              allInterest = allInterest+'|'+interests[i].interest.name;
+            }
+          }
+          MapFct.getGoogleInterestsByUserInterests(position, allInterest)
+            .success(function (data) {
+              $scope.interests = data.results;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              $ionicLoading.hide();
+            });
+        })
+        .error(function (err) {
+          console.log(err);
+        });
     }
 
   });
+
+
