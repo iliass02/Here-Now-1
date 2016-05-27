@@ -7,6 +7,8 @@ var app = angular.module(
     "firebase",
     "usersFactory",
     "interestsFactory",
-    "mapFactory"
+    "mapFactory",
+    "favoritesFactory",
+    "ngMaterial"
   ]
 );
