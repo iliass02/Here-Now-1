@@ -7,6 +7,8 @@ app
     var userId = $stateParams.userId;
     var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
 
+    $scope.userId = userId;
+
     NgMap.getMap().then(function(map) {
       vm.map = map;
     });
@@ -72,7 +74,7 @@ app
         'message: ' + error.message + '\n');
     }
 
-    //function get 
+    //function get
     function GetPosition (position) {
       $scope.latLng = position.coords.latitude+", "+position.coords.longitude;
       MapFct.getUserInterest(userId)
