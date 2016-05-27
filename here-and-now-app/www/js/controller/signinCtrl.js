@@ -105,7 +105,7 @@ app
             Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
           }
         });
-    
+
   }
 
 });

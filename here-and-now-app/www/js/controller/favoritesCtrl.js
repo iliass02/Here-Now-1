@@ -41,6 +41,7 @@ app
     FavoritesFct.deleteFavorite(favoriteId)
       .success(function () {
         $scope.favorites.splice(id,1);
+        Materialize.toast("L'adresse a bien été supprimer", 1500, "green");
       })
       .error(function (error) {
         Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
