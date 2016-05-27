@@ -4,6 +4,7 @@ var app = angular.module(
   [
     "checklist-model",
     "ngMap",
+    "ngCordova",
     "firebase",
     "usersFactory",
     "interestsFactory",

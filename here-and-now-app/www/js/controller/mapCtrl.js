@@ -1,6 +1,6 @@
 app
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap, MapFct) {
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap, MapFct, $cordovaLocalNotification, $ionicPlatform) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
@@ -104,6 +104,25 @@ app
           console.log(err);
         });
     }
+
+
+    $ionicPlatform.ready(function () {
+      if (ionic.Platform.isWebView()) {
+
+      }
+
+      $scope.notif = function () {
+        $cordovaLocalNotification.schedule({
+          id: 1,
+          text: 'Instant Notification',
+          title: 'Instant'
+        }).then(function () {
+          alert("Instant Notification set");
+        });
+      };
+
+    });
+
 
   });
 
