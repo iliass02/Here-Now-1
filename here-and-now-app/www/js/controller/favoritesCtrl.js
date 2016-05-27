@@ -1,20 +1,25 @@
 app
-.controller('FavoritesCtrl', function($scope, $location, $stateParams, FavoritesFct, $mdDialog) {
+.controller('FavoritesCtrl', function($scope, $location, $stateParams, FavoritesFct, $mdDialog, $ionicLoading) {
   var userId = $stateParams.userId;
 
   $scope.userId = userId;
+  $ionicLoading.show({
+    template: '<ion-spinner icon="android"></ion-spinner>'
+  });
 
+  //get favorites by userId
   FavoritesFct.getFavorites(userId)
     .success(function(data) {
-      console.log(data);
       $scope.favorites = data.data;
     })
     .error(function(error, status) {
-      console.log(error, status);
+      Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
+    }).finally(function () {
+      $ionicLoading.hide();
     });
 
+  //confirm modal to remove favorite
   $scope.showConfirm = function(ev, favoriteId, id) {
-    // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.confirm()
       .title('Supprimer une adresse')
       .textContent('Voulez-vous vraiment supprimer cette adresse ?!')
@@ -27,15 +32,20 @@ app
     });
   };
 
+  //remove favorite by favoriteId and refresh $scope.favorites
   function removeFavorite(favoriteId, id) {
-    console.log('remove favorite', favoriteId);
+    $ionicLoading.show({
+      template: '<ion-spinner icon="android"></ion-spinner>'
+    });
+
     FavoritesFct.deleteFavorite(favoriteId)
       .success(function () {
-        console.log('OK');
         $scope.favorites.splice(id,1);
       })
       .error(function (error) {
-        console.log(error);
+        Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
+      }).finally(function () {
+        $ionicLoading.hide();
       });
   }
 
