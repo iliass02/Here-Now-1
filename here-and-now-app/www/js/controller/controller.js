@@ -10,6 +10,8 @@ var app = angular.module(
     "interestsFactory",
     "mapFactory",
     "favoritesFactory",
-    "ngMaterial"
+    "ngMaterial",
+    "ngCookies",
+    "authFactory"
   ]
 );

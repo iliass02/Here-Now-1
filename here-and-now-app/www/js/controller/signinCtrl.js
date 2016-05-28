@@ -1,9 +1,14 @@
 app
 
-.controller('SigninCtrl', function ($scope, $location, $firebaseAuth, UsersFct) {
+.controller('SigninCtrl', function ($scope, $location, $firebaseAuth, UsersFct, $cookieStore) {
 
   var ref = new Firebase('https://here-and-now.firebaseio.com');
   var authObject = $firebaseAuth(ref);
+  var userObj = $cookieStore.get('userObj');
+
+  if(userObj) {
+    $location.path('/map/'+userObj.id);
+  }
 
   $scope.facebook = function () {
 
@@ -22,6 +27,7 @@ app
               $scope.signup(loginuser, authData.facebook.email, authData.facebook.id);
             } else{
               //user exist => signin
+              $cookieStore.put('userObj', user.data);
               Materialize.toast("Connexion réussi", 2000, "green");
               $location.path("/map/"+user.data.id);
             }
@@ -48,6 +54,7 @@ app
               $scope.signup(loginuser, authData.google.email, authData.google.id);
             } else{
               //user exist => signin
+              $cookieStore.put('userObj', user.data);
               Materialize.toast("Connexion réussi", 2000, "green");
               $location.path("/map/"+user.data.id);
             }
@@ -66,6 +73,7 @@ app
 
     UsersFct.signin(data)
       .success(function(data) {
+        $cookieStore.put('userObj', data.data);
         Materialize.toast("Connexion réussi", 2000, "green");
         $location.path("/map/"+data.data.id);
       })
@@ -92,6 +100,7 @@ app
 
       UsersFct.signup(data)
         .success(function(data) {
+          $cookieStore.put('userObj', data.data);
           Materialize.toast("Inscription réussi", 2000, "green");
           $location.path("/interests/"+data.data.id);
         })
