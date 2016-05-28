@@ -89,9 +89,20 @@ app
               allInterest = allInterest+'|'+interests[i].interest.name;
             }
           }
-          MapFct.getGoogleInterestsByUserInterests(position, allInterest)
+          MapFct.getGoogleInterestsByUserInterests(position, allInterest, 200)
             .success(function (data) {
               $scope.interests = data.results;
+            })
+            .error(function (err) {
+              console.log(err);
+            })
+            .finally(function () {
+              $ionicLoading.hide();
+            });
+
+          MapFct.getGoogleInterestsByUserInterests(position, allInterest, 10)
+            .success(function (data) {
+              MapFct.notification();
             })
             .error(function (err) {
               console.log(err);
@@ -106,22 +117,6 @@ app
     }
 
 
-    $ionicPlatform.ready(function () {
-      if (ionic.Platform.isWebView()) {
-
-      }
-
-      $scope.notif = function () {
-        $cordovaLocalNotification.schedule({
-          id: 1,
-          text: 'Instant Notification',
-          title: 'Instant'
-        }).then(function () {
-          alert("Instant Notification set");
-        });
-      };
-
-    });
 
 
   });
