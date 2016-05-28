@@ -1,6 +1,6 @@
 app
 
-  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, $http, NgMap, MapFct, $cordovaLocalNotification, $ionicPlatform) {
+  .controller('MapCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $stateParams, NgMap, MapFct, FavoritesFct) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
@@ -40,7 +40,7 @@ app
         longitude: longitude
       };
 
-      $http.post(path_url+'/api/v1/users/'+$stateParams.userId+'/interests/favorites', data)
+      FavoritesFct.postFavorite(userId, data)
         .success(function (data) {
           Materialize.toast("Ajout en favoris réussi", 2000, "green");
         })
@@ -54,9 +54,7 @@ app
 
     };
 
-
     $scope.directions = function (latitude, longitude) {
-
       $scope.direction = latitude+', '+longitude;
       $scope.itineraire = true;
     };
@@ -89,6 +87,7 @@ app
               allInterest = allInterest+'|'+interests[i].interest.name;
             }
           }
+          //get all interest for map
           MapFct.getGoogleInterestsByUserInterests(position, allInterest, 200)
             .success(function (data) {
               $scope.interests = data.results;
@@ -100,24 +99,20 @@ app
               $ionicLoading.hide();
             });
 
+          //check interest for notification
           MapFct.getGoogleInterestsByUserInterests(position, allInterest, 10)
             .success(function (data) {
-              MapFct.notification();
-            })
-            .error(function (err) {
-              console.log(err);
-            })
-            .finally(function () {
-              $ionicLoading.hide();
+              var interestId = data.results[0].place_id;
+              var text = data.results[0].name;
+              var title = "Un point d'intérêt pourrait vous intéresser !";
+
+              MapFct.notification(interestId, title, text);
             });
         })
         .error(function (err) {
           console.log(err);
         });
     }
-
-
-
 
   });
 
