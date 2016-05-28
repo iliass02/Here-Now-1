@@ -5,19 +5,13 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-
-var db = mysql.createConnection({
-    user: 'root',
-    password: 'root',
-    database: 'Here-and-now',
-    // debug: true
-});
-
-db.connect(function(err) {
-    if (err)
-        console.log("Connexion à la BDD : KO !!!!!!!!!!!!!!!!!!!!");
-    else
-        console.log("Connexion à la BDD : OK");
+var Sequelize = require('sequelize');
+var sequelize = new Sequelize('Here-and-now', 'root', 'root', {
+    host: "127.0.0.1",
+    dialect: 'mysql',
+    define: {
+        timestamps: false
+    }
 });
 
 app.use(function(req, res, next) {
@@ -41,8 +35,9 @@ app.get('/api/v1/', function(req, res) {
     res.send("API V1 Here & Now");
 });
 
-require('./api/routes/loginRoute.js')(router, db, mysql);
-require('./api/routes/interestsRoute.js')(router, db, mysql);
+require('./api/routes/loginRoute.js')(router, sequelize, mysql);
+require('./api/routes/interestsRoute.js')(router, sequelize, mysql);
+require('./api/routes/usersRoutes.js')(router, sequelize, mysql);
 
 app.use('/api/v1/', router);
 app.listen(port);

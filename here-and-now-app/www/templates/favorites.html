@@ -1,0 +1,45 @@
+<ion-view view-title="Favoris" hide-back-button="true">
+  <ion-content>
+
+    <div class="padding">
+
+        <div class="row">
+          <h5>Favoris</h5>
+        </div>
+    </div>
+
+
+    <div>
+      <ul class="collection">
+        <li class="collection-item avatar" ng-repeat="favorite in favorites">
+          <i class="material-icons circle green">location_on</i>
+          <span class="title">{{favorite.name}}</span>
+          <p>{{favorite.address}}<br>
+          </p>
+          <a href="" class="secondary-content" ng-click="showConfirm($event, favorite.id, $index)"><i class="material-icons">delete</i></a>
+        </li>
+        <li class="collection-item" ng-if="!favorites.length">
+          <span class="title">Aucune address</span>
+        </li>
+      </ul>
+    </div>
+
+
+  </ion-content>
+
+  <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
+    <ion-tabs class="tabs-icon-top" style="width: 100%">
+
+      <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
+      </ion-tab>
+
+      <ion-tab title="Favoris" href="#/favorites/{{userId}}"  icon-on="ion-ios-star" icon-off="ion-ios-star-outline">
+      </ion-tab>
+
+      <ion-tab title="Mon Compte" href="#/account/{{userId}}"  icon-on="ion-ios-person" icon-off="ion-ios-person-outline">
+        <!-- Tab 3 content -->
+      </ion-tab>
+
+    </ion-tabs>
+  </div>
+</ion-view>
