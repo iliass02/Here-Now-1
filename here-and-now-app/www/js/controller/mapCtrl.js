@@ -8,17 +8,22 @@ app
     var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
 
     $scope.userId = userId;
+    $scope.vm = vm;
 
     NgMap.getMap().then(function(map) {
       vm.map = map;
     });
 
-    vm.showDetail = function(e, interest) {
+    $scope.vm.showDetail = function(e, interest) {
       console.log(interest);
       vm.interest = interest;
       console.log(interest.id);
       vm.map.showInfoWindow('foo-iw', interest.id);
     };
+
+    $scope.test = function () {
+      console.log('test');
+    }
 
     $ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
