@@ -2,10 +2,15 @@ var mysql = require("mysql");
 var Sequelize = require('sequelize');
 
 module.exports = function(router, connection) {
-    //model
+    /*
+    Model for ORM
+     */
     var users = require('../../models/users')(connection, Sequelize);
 
     router.route('/users')
+        /*
+        GET all users
+         */
         .get(function (req, res) {
 
             users.findAll().then(function (users) {
@@ -18,6 +23,9 @@ module.exports = function(router, connection) {
         });
 
     router.route('/users/:user')
+        /*
+        GET user info by userId
+         */
         .get(function (req, res) {
             var user  = req.params.user;
 
@@ -39,6 +47,9 @@ module.exports = function(router, connection) {
         })
 
     router.route('/users/:login')
+        /*
+        GET user info by login
+         */
         .get(function (req, res) {
             var login  = req.params.login;
 

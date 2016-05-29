@@ -9,9 +9,17 @@
 //path_url = "http://debian.dev:3000";
 path_url = "http://localhost:3000";
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, AuthFct, $location) {
+
+  var userAuth = AuthFct.getAccessToken();
+
+  if (!userAuth) {
+    $location.path('/signin');
+  }
+
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -75,53 +83,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     })
 
     .state('map', {
-      url: '/map/:user_id',
+      url: '/map/:userId',
       views: {
         '': {
           templateUrl: 'templates/map.html',
           controller: 'MapCtrl'
         }
-      }
+      },
+      authenticated: true
     })
-
-    .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
-  .state('tab.chats', {
-      url: '/chats',
+    .state('favorites', {
+      url: '/favorites/:userId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        '': {
+          templateUrl: 'templates/favorites.html',
+          controller: 'FavoritesCtrl'
         }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+      },
+      authenticated: true
+    });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/signin');
