@@ -16,7 +16,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   var userAuth = AuthFct.getAccessToken();
 
   if (!userAuth) {
-    $location.path('/');
+    $location.path('/signin');
   }
 
 
@@ -86,7 +86,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       url: '/map/:userId',
       views: {
         '': {
-          templateUrl: 'templates/map.html'
+          templateUrl: 'templates/map.html',
+          controller: 'MapCtrl'
         }
       },
       authenticated: true
