@@ -102,11 +102,15 @@ app
           //check interest for notification
           MapFct.getGoogleInterestsByUserInterests(position, allInterest, 10)
             .success(function (data) {
-              var interestId = data.results[0].place_id;
-              var text = data.results[0].name;
-              var title = "Un point d'intérêt pourrait vous intéresser !";
+              if (data.results.length) {
+                var interestId = data.results[0].place_id;
+                var text = data.results[0].name;
+                var title = "Un point d'intérêt pourrait vous intéresser !";
+                var latitude = data.results[0].geometry.location.lat;
+                var longitude = data.results[0].geometry.location.lng;
 
-              MapFct.notification(interestId, title, text);
+                MapFct.notification(interestId, title, text, latitude, longitude);
+              }
             });
         })
         .error(function (err) {

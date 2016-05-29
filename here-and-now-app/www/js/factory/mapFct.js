@@ -14,12 +14,16 @@ angular.module('mapFactory', ["ngCordova"])
 
         return $http.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json", {params: params});
       },
-      notification: function(interestId, title, text) {
+      notification: function(interestId, title, text, latitude, longitude) {
         $ionicPlatform.ready(function () {
           return $cordovaLocalNotification.schedule({
             id: interestId,
             text: text,
-            title: title
+            title: title,
+            data: {
+              latitude: latitude,
+              longitude: longitude
+            }
           });
         });
       }
