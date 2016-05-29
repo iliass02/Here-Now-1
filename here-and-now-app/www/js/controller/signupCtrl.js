@@ -1,6 +1,6 @@
 app
 
-.controller('SignupCtrl', function ($scope, $location, UsersFct) {
+.controller('SignupCtrl', function ($scope, $location, UsersFct, $cookieStore) {
 
   $scope.signup = function (login, email, password, interests_id) {
 
@@ -14,6 +14,7 @@ app
     //signup new user
     UsersFct.signup(data)
       .success(function(data) {
+        $cookieStore.put('userObj', data.data);
         Materialize.toast("Inscription réussi", 2000, "green");
         $location.path("/interests/"+data.data.insertId);
       })
