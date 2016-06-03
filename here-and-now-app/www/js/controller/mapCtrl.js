@@ -60,7 +60,7 @@ app
     };
 
     $scope.directions = function (latitude, longitude) {
-      $scope.direction = latitude+', '+longitude;
+      $scope.destination = latitude+', '+longitude;
       $scope.itineraire = true;
     };
 
