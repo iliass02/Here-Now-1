@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 //path_url = "http://debian.dev:3000";
-path_url = "http://localhost:3000";
+path_url = "http://172.16.4.32:3000";
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory'])
 
@@ -102,6 +102,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       },
       authenticated: true
     });
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/signin');
