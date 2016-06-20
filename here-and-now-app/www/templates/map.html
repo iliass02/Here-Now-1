@@ -10,13 +10,32 @@
 
         <info-window id="foo-iw">
           <div ng-non-bindable="">
-            {{vm.interest.name}}
-            <a href=""
-               ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
-              Ajouter au favoris</a>
-            <a href=""
-               ng-click="directions(vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
-              Directions</a>
+            <div class="col s12">
+              <h5>
+                {{ vm.interest.name }}
+              </h5>
+              <p>Tags: 
+                <div class="chip" ng-repeat="type in vm.interest.types">
+                  {{ type }}
+                </div>
+              </p>
+            </div>
+            <div class="col s12">
+              <div class="col s6">
+                <a href=""
+                   ng-click="directions(vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+                  <i class="icon ion-navigate"></i>
+                  Directions
+                </a>
+              </div>
+              <div class="col s6">
+                <a href=""
+                   ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+                  <i class="icon ion-star"></i>
+                  Ajouter au favoris
+                </a>
+              </div>
+            </div>
           </div>
         </info-window>
 

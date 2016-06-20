@@ -16,6 +16,7 @@ app
     vm.showDetail = function(e, interest) {
       console.log(interest);
       vm.interest = interest;
+      vm.interest.types.splice(vm.interest.types.length - 2, 2);
       console.log(interest.id);
       vm.map.showInfoWindow('foo-iw', interest.id);
     };
