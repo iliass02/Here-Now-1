@@ -4,11 +4,16 @@ var app = angular.module(
   [
     "checklist-model",
     "ngMap",
+    "ngCordova",
     "firebase",
     "usersFactory",
     "interestsFactory",
     "mapFactory",
     "favoritesFactory",
-    "ngMaterial"
+    "ngMaterial",
+    "ngCookies",
+    "authFactory",
+    "newsFeedFactory",
+    "interestDetailFactory"
   ]
 );

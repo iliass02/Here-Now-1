@@ -1,6 +1,5 @@
 <ion-view view-title="Map" hide-back-button="true">
   <ion-content>
-    <div  ng-controller="MapCtrl as vm">
       <ng-map  style="display:block; height:550px" center="{{latLng}}" zoom="17">
         <marker position="{{latLng}}" title="how" animation="Animation.BOUNCE"></marker>
         <marker id='{{interest.id}}' position="{{interest.geometry.location.lat}}, {{interest.geometry.location.lng}}"
@@ -44,12 +43,10 @@
             draggable="false"
             travel-mode="WALKING"
             origin="current-location"
-            destination="{{direction}}">
+            destination="{{destination}}">
           </directions>
         </div>
       </ng-map>
-
-    </div>
   </ion-content>
 
   <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">

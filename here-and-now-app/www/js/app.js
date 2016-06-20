@@ -9,9 +9,10 @@
 //path_url = "http://debian.dev:3000";
 path_url = "http://localhost:3000";
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, AuthFct, $location) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -91,7 +92,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           controller: 'FavoritesCtrl'
         }
       }
+    })
+    .state('interestDetail', {
+      url: 'user/:userId/interest-detail/:interestId',
+      views: {
+        '': {
+          templateUrl: 'templates/interestDetail.html',
+          controller: 'InterestDetailCtrl'
+        }
+      }
+    })
+    .state('newsFeed', {
+      url: '/newsFeed/:userId',
+      views: {
+        '': {
+          templateUrl: 'templates/newsFeed.html',
+          controller: 'NewsFeedCtrl'
+        }
+      }
     });
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/signin');

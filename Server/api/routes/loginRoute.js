@@ -14,10 +14,14 @@ module.exports = function(router, connection) {
         POST Signin user connection 
          */
         .post(function(req, res) {
-    
+
+            //TODO changer where var
+            //TODO user DRO
+            
             var login = req.body.login;
             var password = req.body.password;
             if(!login || !password ) {
+                //TODO 422 a changer
                 res.status(500).send({
                     "success": false,
                     "error": "Login and Password are required"
