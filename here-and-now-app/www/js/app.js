@@ -92,6 +92,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           controller: 'FavoritesCtrl'
         }
       }
+    })
+    .state('interestDetail', {
+      url: 'user/:userId/interest-detail/:interestId',
+      views: {
+        '': {
+          templateUrl: 'templates/interestDetail.html',
+          controller: 'InterestDetailCtrl'
+        }
+      }
+    })
+    .state('newsFeed', {
+      url: '/newsFeed/:userId',
+      views: {
+        '': {
+          templateUrl: 'templates/newsFeed.html',
+          controller: 'NewsFeedCtrl'
+        }
+      }
     });
 
 
