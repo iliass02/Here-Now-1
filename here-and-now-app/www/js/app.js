@@ -7,18 +7,11 @@
 // 'starter.controllers' is found in controllers.js
 
 //path_url = "http://debian.dev:3000";
-path_url = "http://172.16.4.32:3000";
+path_url = "http://localhost:3000";
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory'])
 
 .run(function($ionicPlatform, AuthFct, $location) {
-
-  var userAuth = AuthFct.getAccessToken();
-
-  if (!userAuth) {
-    $location.path('/signin');
-  }
-
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -89,8 +82,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           templateUrl: 'templates/map.html',
           controller: 'MapCtrl'
         }
-      },
-      authenticated: true
+      }
     })
     .state('favorites', {
       url: '/favorites/:userId',
@@ -99,8 +91,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           templateUrl: 'templates/favorites.html',
           controller: 'FavoritesCtrl'
         }
-      },
-      authenticated: true
+      }
     });
 
 
