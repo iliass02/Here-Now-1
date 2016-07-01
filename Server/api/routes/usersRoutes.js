@@ -7,6 +7,7 @@ module.exports = function(router, connection) {
      */
     var users = require('../../models/users')(connection, Sequelize);
     var opinions = require('../../models/opinions')(connection, Sequelize);
+    var news_feed = require('../../models/news_feed')(connection, Sequelize);
 
     router.route('/users')
         /*
@@ -79,7 +80,7 @@ module.exports = function(router, connection) {
             if (!UserId || !InterestId || !Content){
                 res.status(500).send({
                     success: false,
-                    error: "UserId, InterestId or Content are requiered" 
+                    error: "UserId, InterestId and Content are requiered" 
                 })
             }
             opinions.create({
@@ -129,5 +130,53 @@ module.exports = function(router, connection) {
                 });
             });  
          })
+
+         router.route('/news-feed')
+        /*
+        GET all message
+         */
+        .get(function (req, res) {
+            news_feed.findAll().then(function(success){
+                res.status(200).send({ 
+                    success: true, 
+                    data: success
+                });
+            }, function(error){
+                res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            }); 
+        })
+
+        router.route('/users/:UserId/news-feed')
+        /*
+        POST message by UserId
+         */
+        .post(function (req, res) {
+            var UserId = req.params.UserId;
+            var Content = req.body.Content;
+
+            if (!UserId || !Content) {
+                res.status(500).send({
+                    success: false,
+                    error: "UserId and Content is requiered" 
+               });
+            }
+            news_feed.create({
+                user_id: UserId,
+                content: Content
+            }).then(function(success){
+                res.status(200).send({ 
+                    success: true, 
+                    data: success
+                });
+            }, function(error){
+                res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            }); 
+        })
 
 }
