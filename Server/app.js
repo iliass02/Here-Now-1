@@ -1,4 +1,3 @@
-var mysql = require('mysql');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -35,9 +34,9 @@ app.get('/api/v1/', function(req, res) {
     res.send("API V1 Here & Now");
 });
 
-require('./api/routes/loginRoute.js')(router, sequelize, mysql);
-require('./api/routes/interestsRoute.js')(router, sequelize, mysql);
-require('./api/routes/usersRoutes.js')(router, sequelize, mysql);
+require('./api/routes/loginRoute.js')(router, sequelize);
+require('./api/routes/interestsRoute.js')(router, sequelize);
+require('./api/routes/usersRoutes.js')(router, sequelize);
 
 app.use('/api/v1/', router);
 app.listen(port);
