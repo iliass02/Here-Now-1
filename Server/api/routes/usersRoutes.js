@@ -100,4 +100,34 @@ module.exports = function(router, connection) {
             });
          })
 
+         router.route('/opinions/interest/:InterestId')
+        /*
+        GET opinion by InterestId
+         */
+         .get(function(req, res){
+            var InterestId = req.params.InterestId;
+
+            if (!InterestId){
+                res.status(500).send({
+                    success: false,
+                    error: "InterestId is requiered" 
+                })
+            }
+            opinions.findAll({
+                where: {
+                    interest_id : InterestId
+                }
+            }).then(function(success){
+                res.status(200).send({ 
+                    success: true, 
+                    data: success
+                });
+            }, function(error){
+                res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            });  
+         })
+
 }
