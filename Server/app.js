@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('Here-and-now', 'root', 'root', {
-    host: "127.0.0.1",
+    host: "localhost",
     dialect: 'mysql',
     define: {
         timestamps: false
