@@ -76,7 +76,13 @@ module.exports = function(router, connection) {
             var InterestId = req.body.InterestId;
             var Content = req.body.Content;
 
-            users.create({
+            if (!UserId || !InterestId || !Content){
+                res.status(500).send({
+                    success: false,
+                    error: "UserId, InterestId or Content are requiered" 
+                })
+            }
+            opinions.create({
                 user_id: UserId,
                 interest_id: InterestId,
                 content: Content,
