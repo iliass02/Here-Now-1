@@ -7,7 +7,7 @@
 #
 # Hôte: 127.0.0.1 (MySQL 5.5.42)
 # Base de données: Here-and-now
-# Temps de génération: 2016-06-20 15:43:01 +0000
+# Temps de génération: 2016-07-04 10:48:22 +0000
 # ************************************************************
 
 
@@ -48,7 +48,8 @@ VALUES
 	(15,1,'Triquenot Maxime','4 Square Chasles, Meaux','48.9492493','2.9039116'),
 	(18,9,'I.N.R.A','65 Boulevard de Brandebourg, Ivry-sur-Seine','48.81418679999999','2.393429'),
 	(19,1,'Score Service','63 Boulevard de Brandebourg, Ivry-sur-Seine','48.81447530000001','2.393758399999999'),
-	(31,1,'L\'espoir Sarl','22 Rue Winston Churchill, Meaux','48.95021439999999','2.9058981');
+	(31,1,'L\'espoir Sarl','22 Rue Winston Churchill, Meaux','48.95021439999999','2.9058981'),
+	(32,7,'BJ\'s Restaurant & Brewhouse','10690 North De Anza Boulevard, Cupertino','37.3313367','-122.0317357');
 
 /*!40000 ALTER TABLE `favorites` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -92,9 +93,34 @@ CREATE TABLE `news_feed` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `content` text,
+  `date_post` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `news_feed` WRITE;
+/*!40000 ALTER TABLE `news_feed` DISABLE KEYS */;
+
+INSERT INTO `news_feed` (`id`, `user_id`, `content`, `date_post`)
+VALUES
+	(1,1,NULL,NULL),
+	(2,1,'test',NULL),
+	(3,1,NULL,NULL),
+	(4,1,'test',NULL),
+	(5,1,'test',NULL),
+	(6,1,'test','2016-07-04 07:47:46'),
+	(7,1,'test','2016-07-04 07:47:59'),
+	(8,1,'test','2016-07-04 07:48:00'),
+	(9,1,'test','2016-07-04 07:48:00'),
+	(10,1,'test','2016-07-04 07:48:01'),
+	(11,1,'test','2016-07-04 07:48:01'),
+	(12,1,'test','2016-07-04 07:48:02'),
+	(13,1,'test','2016-07-04 07:48:03'),
+	(14,1,'test','2016-07-04 07:48:03'),
+	(15,1,'toto','2016-07-04 09:07:31'),
+	(16,1,'ceci est un message','2016-07-04 09:12:09');
+
+/*!40000 ALTER TABLE `news_feed` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Affichage de la table opinions
@@ -104,13 +130,43 @@ DROP TABLE IF EXISTS `opinions`;
 
 CREATE TABLE `opinions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `interest_id` int(11) DEFAULT NULL,
+  `interest_id` varchar(250) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `content` text,
   `date_post` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `opinions` WRITE;
+/*!40000 ALTER TABLE `opinions` DISABLE KEYS */;
+
+INSERT INTO `opinions` (`id`, `interest_id`, `user_id`, `content`, `date_post`)
+VALUES
+	(1,NULL,1,NULL,'0000-00-00 00:00:00'),
+	(2,'3',1,NULL,'0000-00-00 00:00:00'),
+	(3,'3',1,'message','0000-00-00 00:00:00'),
+	(4,NULL,1,NULL,'0000-00-00 00:00:00'),
+	(5,'5',1,'soso','0000-00-00 00:00:00'),
+	(6,'5',1,'soso','0000-00-00 00:00:00'),
+	(7,'5',1,'soso','0000-00-00 00:00:00'),
+	(8,'5',1,'soso',NULL),
+	(9,'5',1,'soso',NULL),
+	(10,'5',1,'soso','0000-00-00 00:00:00'),
+	(11,NULL,1,NULL,'0000-00-00 00:00:00'),
+	(12,NULL,1,NULL,'0000-00-00 00:00:00'),
+	(13,NULL,1,NULL,'0000-00-00 00:00:00'),
+	(14,NULL,1,NULL,'0000-00-00 00:00:00'),
+	(15,NULL,0,'test','0000-00-00 00:00:00'),
+	(16,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',0,'test','0000-00-00 00:00:00'),
+	(17,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',1,'test','0000-00-00 00:00:00'),
+	(18,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',1,'test','2016-07-04 08:03:28'),
+	(19,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',1,'test','2016-07-04 08:03:31'),
+	(20,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',1,'test','2016-07-04 08:03:31'),
+	(21,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',7,'poste','2016-07-04 10:46:46'),
+	(22,'ChIJ6V20L7Nz5kcRLP1rxsxJPU8',7,'dzddzdz','2016-07-04 10:47:13');
+
+/*!40000 ALTER TABLE `opinions` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Affichage de la table users
@@ -136,7 +192,9 @@ VALUES
 	(8,'Sadam_Houssam','shadow_1996@hotmail.fr','$2a$10$5qCBG/mMlte0SOUgjTVt3.cr/sw07B5sUAS7JqAa3AabWl6qKPWo2'),
 	(9,'Fin_Pomponette','pomponette93420@gmail.com','$2a$10$9xYe2ynIi1ykcWEFhD/heeNKX.MS5CnQluwua7ELOu8YttYmaXm5q'),
 	(11,'marchoud_fatima','fatima.marchoud.maamri@gmail.com','$2a$10$0c3cqWQvcs6y.yyVvwCIaudQ9B44VCWLfhLVFC5ykxr6ha73xdVmu'),
-	(12,'sisi','sisi@toto.com','$2a$10$.eyajda.Gx5H45JosxavxeUCcSq0SD3hrVvKV42u89Qq0L/auEnMi');
+	(12,'sisi','sisi@toto.com','$2a$10$.eyajda.Gx5H45JosxavxeUCcSq0SD3hrVvKV42u89Qq0L/auEnMi'),
+	(13,'','',''),
+	(14,'','','');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;

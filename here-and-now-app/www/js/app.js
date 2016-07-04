@@ -94,7 +94,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
     .state('interestDetail', {
-      url: 'user/:userId/interest-detail/:interestId',
+      url: '/user/:userId/interest-detail/:interestId',
       views: {
         '': {
           templateUrl: 'templates/interestDetail.html',
@@ -103,7 +103,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
     .state('newsFeed', {
-      url: '/newsFeed/:userId',
+      url: '/news-feed/:userId',
       views: {
         '': {
           templateUrl: 'templates/newsFeed.html',
