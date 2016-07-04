@@ -1,5 +1,22 @@
-<ion-view view-title="Détail du point d'intérêt" hide-back-button="true">
+<ion-view view-title="{{interestDetails.name}}" hide-back-button="true">
   <ion-content>
+
+   {{interestDetails.name}}
+    <img src="{{interestDetails.icon}}" alt="">
+    <div ng-bind-html="interestDetails.adr_address"></div>
+    <p>    {{interestDetails.formatted_phone_number}}</p>
+    <a href="{{interestDetails.url}}">Google Maps</a>
+
+    <br>
+    <h5>Avis</h5>
+    <i class="material-icons" ng-click="showPrompt($event)">add</i>
+    <div ng-repeat="opinion in opinions">
+      <p>{{opinion.user.login}}</p>
+      <p>{{opinion.content}}</p>
+      <p>{{opinion.date_post}}</p>
+      <br>
+    </div>
+
 
   </ion-content>
 

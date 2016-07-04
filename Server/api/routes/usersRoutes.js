@@ -46,7 +46,7 @@ module.exports = function(router, connection) {
                 });
             })
 
-        })
+        });
 
     router.route('/users/:login')
         /*
@@ -66,9 +66,9 @@ module.exports = function(router, connection) {
                 });
             })
 
-        })
+        });
 
-    router.route('/users/:UserId/:opinion')
+    router.route('/users/:UserId/opinion')
         /*
         POST opinion by UserId
          */
@@ -78,16 +78,16 @@ module.exports = function(router, connection) {
             var Content = req.body.Content;
 
             if (!UserId || !InterestId || !Content){
-                res.status(500).send({
+                return res.status(500).send({
                     success: false,
-                    error: "UserId, InterestId and Content are requiered" 
+                    error: "UserId, InterestId and Content are required"
                 })
             }
             opinions.create({
                 user_id: UserId,
                 interest_id: InterestId,
                 content: Content,
-                date_post: Sequelize.NOW
+                date_post: new Date().toJSON()
             }).then(function(success){
                 res.status(200).send({ 
                     success: true, 
@@ -99,7 +99,7 @@ module.exports = function(router, connection) {
                     error: error
                 });
             });
-         })
+         });
 
          router.route('/opinions/interest/:InterestId')
         /*
@@ -109,15 +109,21 @@ module.exports = function(router, connection) {
             var InterestId = req.params.InterestId;
 
             if (!InterestId){
-                res.status(500).send({
+                return res.status(500).send({
                     success: false,
-                    error: "InterestId is requiered" 
+                    error: "InterestId is required"
                 })
             }
+             //LEFT JOIN
+             users.hasMany(opinions, {foreignKey: 'user_id'});
+             opinions.belongsTo(users, {foreignKey: 'user_id'});
+
             opinions.findAll({
                 where: {
                     interest_id : InterestId
-                }
+                },
+                order: 'date_post DESC',
+                include: [users]
             }).then(function(success){
                 res.status(200).send({ 
                     success: true, 
@@ -129,14 +135,21 @@ module.exports = function(router, connection) {
                     error: error
                 });
             });  
-         })
+         });
 
          router.route('/news-feed')
         /*
         GET all message
          */
         .get(function (req, res) {
-            news_feed.findAll().then(function(success){
+            //LEFT JOIN
+            users.hasMany(news_feed, {foreignKey: 'user_id'});
+            news_feed.belongsTo(users, {foreignKey: 'user_id'});
+
+            news_feed.findAll({
+                order: 'date_post DESC',
+                include: [users]
+            }).then(function(success){
                 res.status(200).send({ 
                     success: true, 
                     data: success
@@ -147,7 +160,7 @@ module.exports = function(router, connection) {
                     error: error
                 });
             }); 
-        })
+        });
 
         router.route('/users/:UserId/news-feed')
         /*
@@ -158,14 +171,15 @@ module.exports = function(router, connection) {
             var Content = req.body.Content;
 
             if (!UserId || !Content) {
-                res.status(500).send({
+                 return res.status(500).send({
                     success: false,
-                    error: "UserId and Content is requiered" 
+                    error: "UserId and Content is required"
                });
             }
             news_feed.create({
                 user_id: UserId,
-                content: Content
+                content: Content,
+                date_post: new Date().toJSON()
             }).then(function(success){
                 res.status(200).send({ 
                     success: true, 

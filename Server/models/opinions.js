@@ -9,12 +9,21 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     interest_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: '',
+      references: {
+        model: 'interest',
+        key: 'id'
+      }
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     },
     content: {
       type: DataTypes.TEXT,
