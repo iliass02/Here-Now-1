@@ -1,6 +1,6 @@
 app
 
-  .controller('MapCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $stateParams, NgMap, MapFct, FavoritesFct, AuthFct) {
+  .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, NgMap, MapFct, FavoritesFct, AuthFct, $cordovaSocialSharing) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
     var vm = this;
@@ -68,7 +68,6 @@ app
 
     //callback for geolocation watch
     function onSuccess(position) {
-      console.log(position);
       GetPosition(position);
     }
 
@@ -122,6 +121,24 @@ app
         .error(function (err) {
           console.log(err);
         });
+    }
+
+    //Social Share
+    $scope.socialShare = function (name, address) {
+      var message = "Venez visitez "+name+" à l'adresse suivante : "+address+" - Paratger depuis l'application Here & Now";
+
+      $cordovaSocialSharing
+        .share(message) // Share via native share sheet
+        .then(function() {
+          Materialize.toast("Partage du lieu réussi", 2000, "green");
+        }, function() {
+          Materialize.toast("Impossible de partager le lieu", 2000, "red");
+        });
+    };
+
+    //redirect
+    $scope.redirect = function (interestId) {
+      $state.go('InterestDetail', {userId: userId, interestId: interestId})
     }
 
   });

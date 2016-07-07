@@ -1,7 +1,37 @@
-<ion-view view-title="Détail du point d'intérêt" hide-back-button="true">
+<ion-view view-title="{{interestDetails.name}}">
   <ion-content>
+    <div class="list card">
+      <div class="item item-avatar">
+        <img class="z-depth-1" src="{{interestDetails.icon}}">
+        <h2>{{interestDetails.name}}</h2>
+        <p>{{ interestDetails.types[0] | capitalize }}</p>
+      </div>
+
+      <div class="item item-body">
+        <b ng-bind-html="interestDetails.adr_address"></b>
+        <p>
+          <a href="callto://{{interestDetails.formatted_phone_number}}" class="subdued">
+            Appeler l'établissement
+          </a>
+          <a href="{{interestDetails.url}}" class="subdued">Google Maps</a>
+        </p>
+      </div>
+
+      <div class="item item-icon-right assertive">
+        <i class="icon ion-plus-round" ng-click="showPrompt($event)"></i>
+        Avis
+      </div>
+      <a class="item item-icon-left assertive" href="#" ng-repeat="opinion in opinions">
+        <i class="icon ion-star"></i>
+        <div>
+          <h2 class="title">{{opinion.user.login}}</h2>
+          <p>« {{opinion.content}} »</p>
+          <p>{{opinion.date_post | date:"EEE d MMMM y 'at' h:mm"}}</p>
+        </div>
+      </a>
+
+    </div>
 
   </ion-content>
 
 </ion-view>
-

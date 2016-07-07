@@ -1,7 +1,42 @@
 <ion-view view-title="Fil d'actualité" hide-back-button="true">
   <ion-content>
 
+    <div class="row " ng-repeat="news in newsFeeds">
+      <div class="col s12 m6">
+        <div class="card grey lighten-3 flow-text">
+          <div class="card-content">
+            <span class="card-title">{{ news.user.login }}</span>
+            <p>{{ news.content }}</p>
+          </div>
+          <div class="card-action">
+            <a href="#">{{ news.date_post |  date:"EEE d MMM 'at' h:mm" }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </ion-content>
 
-</ion-view>
+  <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+      <i class="material-icons" ng-click="showPrompt($event)">add</i>
+    </a>
+  </div>
+  <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
+    <ion-tabs class="tabs-icon-top" style="width: 100%">
 
+      <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
+      </ion-tab>
+
+      <ion-tab title="Timeline" href="#/news-feed/{{userId}}" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
+      </ion-tab>
+
+      <ion-tab title="Favoris" href="#/favorites/{{userId}}"  icon-on="ion-ios-star" icon-off="ion-ios-star-outline">
+      </ion-tab>
+
+      <ion-tab title="Mon Compte" href="#/account/{{userId}}"  icon-on="ion-ios-person" icon-off="ion-ios-person-outline">
+        <!-- Tab 3 content -->
+      </ion-tab>
+
+    </ion-tabs>
+  </div>
+</ion-view>

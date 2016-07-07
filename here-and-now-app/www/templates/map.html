@@ -13,7 +13,7 @@
               <h5>
                 {{ vm.interest.name }}
               </h5>
-              <p>Tags: 
+              <p>Tags:
                 <div class="chip" ng-repeat="type in vm.interest.types">
                   {{ type }}
                 </div>
@@ -34,6 +34,11 @@
                   Ajouter au favoris
                 </a>
               </div>
+              <a href=""
+                 ng-click="socialShare(vm.interest.name, vm.interest.vicinity)">
+                Partager sur les réseaux sociaux</a>
+              <a href="#/user/{{userId}}/interest-detail/{{vm.interest.place_id}}">
+                Plus d'info</a>
             </div>
           </div>
         </info-window>
@@ -53,6 +58,9 @@
     <ion-tabs class="tabs-icon-top" style="width: 100%">
 
       <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
+      </ion-tab>
+
+      <ion-tab title="Timeline" href="#/news-feed/{{userId}}" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
       </ion-tab>
 
       <ion-tab title="Favoris" href="#/favorites/{{userId}}"  icon-on="ion-ios-star" icon-off="ion-ios-star-outline">
