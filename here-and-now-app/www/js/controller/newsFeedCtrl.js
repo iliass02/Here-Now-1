@@ -12,13 +12,19 @@ app
 
     GetNews();
 
+    $(document).ready(function(){
+      // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+      $('.modal-trigger').leanModal();
+    });
+
+
 
     $scope.showPrompt = function(ev) {
       // Appending dialog to document.body to cover sidenav in docs app
       var confirm = $mdDialog.prompt()
-        .title('Message')
-        .textContent('Poster un message')
-        .placeholder('message')
+        .title('Ajouter un message')
+        .textContent('Veuillez ajouter votre message:')
+        .placeholder('Votre message...')
         .targetEvent(ev)
         .ok('Envoyer')
         .cancel('Annuler');
