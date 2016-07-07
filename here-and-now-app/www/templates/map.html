@@ -9,18 +9,37 @@
 
         <info-window id="foo-iw">
           <div ng-non-bindable="">
-            {{vm.interest.name}}
-            <a href=""
-               ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
-              Ajouter au favoris</a>
-            <a href=""
-               ng-click="directions(vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
-              Directions</a>
-            <a href=""
-               ng-click="socialShare(vm.interest.name, vm.interest.vicinity)">
-              Partager sur les réseaux sociaux</a>
-            <a href="#/user/{{userId}}/interest-detail/{{vm.interest.place_id}}">
-              Plus d'info</a>
+            <div class="col s12">
+              <h5>
+                {{ vm.interest.name }}
+              </h5>
+              <p>Tags:
+                <div class="chip" ng-repeat="type in vm.interest.types">
+                  {{ type }}
+                </div>
+              </p>
+            </div>
+            <div class="col s12">
+              <div class="col s6">
+                <a href=""
+                   ng-click="directions(vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+                  <i class="icon ion-navigate"></i>
+                  Directions
+                </a>
+              </div>
+              <div class="col s6">
+                <a href=""
+                   ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+                  <i class="icon ion-star"></i>
+                  Ajouter au favoris
+                </a>
+              </div>
+              <a href=""
+                 ng-click="socialShare(vm.interest.name, vm.interest.vicinity)">
+                Partager sur les réseaux sociaux</a>
+              <a href="#/user/{{userId}}/interest-detail/{{vm.interest.place_id}}">
+                Plus d'info</a>
+            </div>
           </div>
         </info-window>
 
