@@ -46,4 +46,6 @@ app
       });
     };
 
+    $scope.userId = $stateParams.userId;
+
   });
