@@ -23,13 +23,12 @@ app
       .error(function (error) {
         console.log(error);
       });
-
     $scope.showPrompt = function(ev) {
       // Appending dialog to document.body to cover sidenav in docs app
       var confirm = $mdDialog.prompt()
         .title('Avis')
-        .textContent('Poster un avis')
-        .placeholder('message')
+        .textContent('Postez un avis:')
+        .placeholder('Votre avis')
         .targetEvent(ev)
         .ok('Envoyer')
         .cancel('Annuler');
