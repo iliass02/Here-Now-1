@@ -8,11 +8,21 @@ module.exports = function(router, connection) {
      */
     var users = require('../../models/users')(connection, Sequelize);
 
+
+    /**
+     * @api {post} /signin User Connection
+     * @apiName Signin
+     * @apiGroup User
+     *
+     * @apiParam {String} login Users login.
+     * @apiParam {String} password Users password.
+     *
+     * @apiSuccess {Number} id User id.
+     * @apiSuccess {String} login  Login of the User.
+     * @apiSuccess {String} email  Email of the User.
+     * @apiSuccess {String} password  Password Hash of the User.
+     */
     router.route("/signin")
-        
-        /*
-        POST Signin user connection 
-         */
         .post(function(req, res) {
 
             //TODO changer where var
@@ -57,13 +67,23 @@ module.exports = function(router, connection) {
                 });
             }
             
-        })
+        });
 
+    /**
+     * @api {post} /signup User Inscription
+     * @apiName Signup
+     * @apiGroup User
+     *
+     * @apiParam {String} login Users login.
+     * @apiParam {String} password Users password.
+     * @apiParam {String} email Users email.
+     *
+     * @apiSuccess {Number} id User id.
+     * @apiSuccess {String} login  Login of the new User.
+     * @apiSuccess {String} email  Email of the new User.
+     * @apiSuccess {String} password  Password Hash of the new User.
+     */
     router.route("/signup")
-        
-        /*
-        POST Signup user inscription
-         */
         .post(function(req, res) {
 
             //params
@@ -110,7 +130,5 @@ module.exports = function(router, connection) {
                 });
             }
 
-
         });
-
 };

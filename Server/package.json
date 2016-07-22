@@ -1,5 +1,5 @@
 {
-  "name": "server-api",
+  "name": "API V1 Here & Now",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "author": "Here & Now Team",
   "license": "ISC",
   "dependencies": {
+    "apidoc": "^0.16.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "bookshelf": "^0.9.5",
