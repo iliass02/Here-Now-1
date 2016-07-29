@@ -9,10 +9,18 @@ module.exports = function(router, connection) {
     var opinions = require('../../models/opinions')(connection, Sequelize);
     var news_feed = require('../../models/news_feed')(connection, Sequelize);
 
+
+    /**
+     * @api {GET} /users Get Users
+     * @apiName Users
+     * @apiGroup User
+     *
+     * @apiSuccess {Number} id User id.
+     * @apiSuccess {String} login  Login of the User.
+     * @apiSuccess {String} email  Email of the User.
+     * @apiSuccess {String} password  Password Hash of the User.
+     */
     router.route('/users')
-        /*
-        GET all users
-         */
         .get(function (req, res) {
 
             users.findAll().then(function (users) {
@@ -24,10 +32,18 @@ module.exports = function(router, connection) {
 
         });
 
+
+    /**
+     * @api {GET} /users/:id Get User by Id
+     * @apiName User by ID
+     * @apiGroup User
+     *
+     * @apiSuccess {Number} id User id.
+     * @apiSuccess {String} login  Login of the User.
+     * @apiSuccess {String} email  Email of the User.
+     * @apiSuccess {String} password  Password Hash of the User.
+     */
     router.route('/users/:user')
-        /*
-        GET user info by userId
-         */
         .get(function (req, res) {
             var user  = req.params.user;
 
@@ -45,13 +61,20 @@ module.exports = function(router, connection) {
                     data: user
                 });
             })
-
         });
 
+
+    /**
+     * @api {GET} /users/:login Get Users by Login
+     * @apiName User by Login
+     * @apiGroup User
+     *
+     * @apiSuccess {Number} id User id.
+     * @apiSuccess {String} login  Login of the User.
+     * @apiSuccess {String} email  Email of the User.
+     * @apiSuccess {String} password  Password Hash of the User.
+     */
     router.route('/users/:login')
-        /*
-        GET user info by login
-         */
         .get(function (req, res) {
             var login  = req.params.login;
 
@@ -68,10 +91,21 @@ module.exports = function(router, connection) {
 
         });
 
+    /**
+     * @api {POST} /users/:UserId/opinion Get User's Opinion
+     * @apiName User's Opinion
+     * @apiGroup Opinion
+     *
+     * @apiParam {Number} InterestId ID of the Interest
+     * @apiParam {String} Content Content of the Interest
+     *
+     * @apiSuccess {Number} id opinion ID.
+     * @apiSuccess {String} user_id  ID of the User.
+     * @apiSuccess {String} interest_id  ID of the Interest.
+     * @apiSuccess {String} content  Content of the Opinion.
+     * @apiSuccess {String} date_post  Date of the Opinion's post.
+     */
     router.route('/users/:UserId/opinion')
-        /*
-        POST opinion by UserId
-         */
          .post(function(req, res){
             var UserId = req.params.UserId;
             var InterestId = req.body.InterestId;
@@ -101,10 +135,19 @@ module.exports = function(router, connection) {
             });
          });
 
-         router.route('/opinions/interest/:InterestId')
-        /*
-        GET opinion by InterestId
-         */
+    /**
+     * @api {GET} opinions/interest/:InterestId Get User's Opinion by Interest ID
+     * @apiName User's Opinion
+     * @apiGroup Opinion
+     *
+     * @apiSuccess {Number} id opinion ID.
+     * @apiSuccess {String} user_id  ID of the User.
+     * @apiSuccess {String} interest_id  ID of the Interest.
+     * @apiSuccess {String} content  Content of the Opinion.
+     * @apiSuccess {String} date_post  Date of the Opinion's post.
+     * @apiSuccess {Array} user  User information.
+     */
+    router.route('/opinions/interest/:InterestId')
          .get(function(req, res){
             var InterestId = req.params.InterestId;
 
@@ -137,10 +180,19 @@ module.exports = function(router, connection) {
             });  
          });
 
-         router.route('/news-feed')
-        /*
-        GET all message
-         */
+
+    /**
+     * @api {GET} /news-feed Get All News Feed
+     * @apiName News Feed
+     * @apiGroup News Feed
+     *
+     * @apiSuccess {Number} id opinion ID.
+     * @apiSuccess {String} user_id  ID of the User.
+     * @apiSuccess {String} content  Content of the Opinion.
+     * @apiSuccess {String} date_post  Date of the Opinion's post.
+     * @apiSuccess {Array} user  User information.
+     */
+    router.route('/news-feed')
         .get(function (req, res) {
             //LEFT JOIN
             users.hasMany(news_feed, {foreignKey: 'user_id'});
@@ -162,10 +214,19 @@ module.exports = function(router, connection) {
             }); 
         });
 
-        router.route('/users/:UserId/news-feed')
-        /*
-        POST message by UserId
-         */
+    /**
+     * @api {POST} /users/:UserId/news-feed Post News Feed
+     * @apiName Post News Feed
+     * @apiGroup News Feed
+     *
+     * @apiParam {String} Content Content of the news
+     *
+     * @apiSuccess {Number} id News Feed ID.
+     * @apiSuccess {String} user_id  ID of the User.
+     * @apiSuccess {String} content  Content of the news.
+     * @apiSuccess {String} date_post  Date of the Opinion's post.
+     */
+    router.route('/users/:UserId/news-feed')
         .post(function (req, res) {
             var UserId = req.params.UserId;
             var Content = req.body.Content;
@@ -191,6 +252,5 @@ module.exports = function(router, connection) {
                     error: error
                 });
             }); 
-        })
-
-}
+        });
+};

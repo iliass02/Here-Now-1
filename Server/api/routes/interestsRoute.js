@@ -9,25 +9,43 @@ module.exports = function(router, connection) {
     var UserInterest = require('../../models/users_interest')(connection, Sequelize);
     var Favorites = require('../../models/favorites')(connection, Sequelize);
 
+    /**
+     * @api {GET} /interests All Interests
+     * @apiName GET Interests
+     * @apiGroup Interests
+     *
+     * @apiSuccess {Number} id User id.
+     * @apiSuccess {String} name  Name of the Interest.
+     */
     router.route('/interests')
-        /*
-        GET all interests
-         */
         .get(function (req, res) {
-
             Interest.findAll().then(function (interest) {
                 res.status(200).send({
                     success: true,
                     data: interest
-                })
-            })
+                });
+            });
+        });
 
-        })
 
     router.route('/users/:userId/interests/favorites')
-        /*
-        POST favorites interest by userId
-         */
+    /**
+     * @api {POST} /users/:userId/interests/favorites news Favorites Interests
+     * @apiName POST Favorite
+     * @apiGroup Interests
+     *
+     * @apiParam {String} address Address interest
+     * @apiParam {String} name Name interest
+     * @apiParam {String} latitude Latitude interest
+     * @apiParam {String} longitude Longitude interest
+     *
+     * @apiSuccess {Number} id  ID of the Favorite
+     * @apiSuccess {String} address  Address of the Favorite
+     * @apiSuccess {String} name  Name of the Favorite
+     * @apiSuccess {String} latitude  Latitude of the Favorite
+     * @apiSuccess {String} longitude  Longitude of the Favorite
+     * @apiSuccess {String} user_id  ID of the User
+     */
         .post(function (req, res) {
 
             var userId = req.params.userId;
@@ -90,9 +108,18 @@ module.exports = function(router, connection) {
 
         })
 
-        /*
-        GET all interest favorites by userId
-         */
+    /**
+     * @api {GET} /users/:userId/interests/favorites Favorites Interests
+     * @apiName GET Favorites
+     * @apiGroup Interests
+     *
+     * @apiSuccess {Number} id  ID of the Favorite
+     * @apiSuccess {String} address  Address of the Favorite
+     * @apiSuccess {String} name  Name of the Favorite
+     * @apiSuccess {String} latitude  Latitude of the Favorite
+     * @apiSuccess {String} longitude  Longitude of the Favorite
+     * @apiSuccess {String} user_id  ID of the User
+     */
         .get(function (req, res) {
             var userId = req.params.userId;
 
@@ -114,6 +141,13 @@ module.exports = function(router, connection) {
 
         });
 
+    /**
+     * @api {DELETE} /interests/favorites/:favoriteId Delete favorite interests
+     * @apiName DELETE Favorite
+     * @apiGroup Interests
+     *
+     * @apiSuccess {BOOL} success  TRUE
+     */
     router.route('/interests/favorites/:favoriteId')
         .delete(function (req, res) {
             var favoriteId = req.params.favoriteId;
@@ -143,9 +177,17 @@ module.exports = function(router, connection) {
         });
 
     router.route('/users/:userId/interests')
-        /*
-         Get All Interests by userId
-         */
+
+    /**
+     * @api {GET} /users/:userId/interests All interests
+     * @apiName All interests by User ID
+     * @apiGroup Interests
+     *
+     * @apiSuccess {Number} id  ID of the User Interest
+     * @apiSuccess {Number} interest_id  ID of the Interest
+     * @apiSuccess {Number} user_id  ID of the User
+     * @apiSuccess {Array} interest  Information of the Interest
+     */
         .get(function(req, res) {
             var user_id = req.params.userId;
             if(!user_id) {
@@ -178,6 +220,16 @@ module.exports = function(router, connection) {
 
         /*
         POST ALL interests choice by userId
+         */
+        /**
+         * @api {POST} /users/:userId/interests Interests
+         * @apiName Choice Interests by User ID
+         * @apiGroup Interests
+         *
+         * @apiSuccess {Number} id  ID of the User Interest
+         * @apiSuccess {Number} interest_id  ID of the Interest
+         * @apiSuccess {Number} user_id  ID of the User
+         * @apiSuccess {Array} interest  Information of the Interest
          */
         .post (function (req, res) {
 
