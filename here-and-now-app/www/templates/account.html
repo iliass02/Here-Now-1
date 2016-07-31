@@ -1,0 +1,40 @@
+<ion-view view-title="Mon Compte"  hide-back-button="true">
+  <ion-content>
+    {{user.login}}
+    {{user.email}}
+    <img ng-if="user.profileImageURL" width="100" height="100" src="{{user.profileImageURL}}">
+    <img ng-if="!user.profileImageURL" width="100" height="100" src="./img/Avatar-Kit-By-RK.png" alt="">
+
+    <div>
+      <div class="chip" ng-repeat="AllInterest in interests">
+        {{ AllInterest.interest.name }}
+        <i class="close material-icons" ng-click="removeInterest(AllInterest.interest.id)">close</i>
+      </div>
+      <div ng-repeat="newsFeed in AllnewsFeed">
+        {{ newsFeed.content }}
+        {{ newsFeed.date_post }}
+      </div>
+      <a href="#/account/{{userId}}/update">Modifier mes informations</a>
+      <a href="#/account/{{userId}}/interests/update">Ajouter des centres d'intérêts</a>
+    </div>
+
+  </ion-content>
+  <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
+    <ion-tabs class="tabs-icon-top" style="width: 100%">
+
+      <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
+      </ion-tab>
+
+      <ion-tab title="Timeline" href="#/news-feed/{{userId}}" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
+      </ion-tab>
+
+      <ion-tab title="Favoris" href="#/favorites/{{userId}}"  icon-on="ion-ios-star" icon-off="ion-ios-star-outline">
+      </ion-tab>
+
+      <ion-tab title="Mon Compte" href="#/account/{{userId}}"  icon-on="ion-ios-person" icon-off="ion-ios-person-outline">
+        <!-- Tab 3 content -->
+      </ion-tab>
+
+    </ion-tabs>
+  </div>
+</ion-view>

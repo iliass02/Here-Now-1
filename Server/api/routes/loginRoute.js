@@ -31,8 +31,7 @@ module.exports = function(router, connection) {
             var login = req.body.login;
             var password = req.body.password;
             if(!login || !password ) {
-                //TODO 422 a changer
-                res.status(500).send({
+                res.status(401).send({
                     "success": false,
                     "error": "Login and Password are required"
                 });
@@ -87,9 +86,11 @@ module.exports = function(router, connection) {
         .post(function(req, res) {
 
             //params
-            var login = req.body.login;
-            var email = req.body.email;
-            var password = req.body.password;
+            var login = req.body.login,
+                email = req.body.email,
+                password = req.body.password,
+                profileImageURL = req.body.profileImageURL,
+                social = req.body.social;
 
             if(!login || !email || !password ) {
                 res.status(500).send({
@@ -114,7 +115,9 @@ module.exports = function(router, connection) {
                         users.create({
                             login: login,
                             password: password,
-                            email: email
+                            email: email,
+                            profileImageURL: profileImageURL,
+                            social: social
                         }).then(function (success) {
                             res.status(200).send({
                                success: true,

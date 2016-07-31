@@ -7,9 +7,9 @@
 // 'starter.controllers' is found in controllers.js
 
 //path_url = "http://debian.dev:3000";
-path_url = "http://localhost:3000";
+path_url = "http://192.168.0.16:3000";
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory', 'onezone-datepicker'])
 
 .run(function($ionicPlatform, AuthFct, $location) {
 
@@ -108,6 +108,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         '': {
           templateUrl: 'templates/newsFeed.html',
           controller: 'NewsFeedCtrl'
+        }
+      }
+    })
+    .state('account', {
+      url: '/account/:userId',
+      views: {
+        '': {
+          templateUrl: 'templates/account.html',
+          controller: 'AccountCtrl'
+        }
+      }
+    })
+    .state('AccountUpdate', {
+      url: '/account/:userId/update',
+      views: {
+        '': {
+          templateUrl: 'templates/accountUpdate.html',
+          controller: 'AccountUpdateCtrl'
+        }
+      }
+    })
+    .state('InterestsUpdate', {
+      url: '/account/:userId/interests/update',
+      views: {
+        '': {
+          templateUrl: 'templates/interestsUpdate.html',
+          controller: 'InterestsUpdateCtrl'
         }
       }
     });

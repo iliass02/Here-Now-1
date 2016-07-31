@@ -6,6 +6,16 @@ angular.module('interestsFactory', [])
       },
       postInterests : function(interests, userId) {
         return $http.post(path_url+"/api/v1/users/"+userId+"/interests", interests);
+      },
+      updateInterests : function (interests, userId) {
+        return $http.put(path_url+'/api/v1/users/'+userId+'/interests', {}, {params: interests});
+      },
+      removeInterest: function (interest, userId) {
+        var params = {
+          interests_id: interest
+        };
+
+        return $http.delete(path_url+'/api/v1/users/'+userId+'/interests', {params: params});
       }
     }
   });

@@ -14,6 +14,7 @@ var app = angular.module(
     "ngCookies",
     "authFactory",
     "newsFeedFactory",
-    "interestDetailFactory"
+    "interestDetailFactory",
+    "accountFactory"
   ]
 );

@@ -1,0 +1,56 @@
+<ion-view view-title="Modifier mes informations">
+  <ion-content>
+    <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s6">
+            <input placeholder="nom" id="first_name" type="text" class="validate" value="{{user.lastname}}"
+                   data-ng-model="user.lastname">
+          </div>
+          <div class="input-field col s6">
+            <input placeholder="prenom" id="last_name" type="text" class="validate" value="{{user.firstname}}"
+                   data-ng-model="user.firstname">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="login" id="login" type="text" class="validate" value="{{user.login}}"
+                   data-ng-model="user.login">
+          </div>
+        </div>
+        <div class="row" ng-if="user.social == 0">
+          <div class="input-field col s12">
+            <input placeholder="nouveau mot de passe" id="password" type="password" class="validate"
+                   data-ng-model="password">
+            <input placeholder="confirmer le nouveau mot de passe" id="password_" type="password" class="validate"
+                   data-ng-model="password_">
+          </div>
+        </div>
+        <div class="row" ng-if="user.social == 0">
+          <div class="input-field col s12">
+            <input placeholder="email" id="email" type="email" class="validate" value="{{user.email}}"
+                   data-ng-model="user.email">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <select class="browser-default" ng-model="user.sexe">
+              <option value=""  disabled selected>Sexe</option>
+              <option value="H">Homme</option>
+              <option value="F">Femme</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="date" placeholder="Date de naissance" ng-model="user.birth_day" value="user.birth_day">
+          </div>
+        </div>
+        <center><a class="waves-effect waves-light btn"
+                   ng-click="updateInfo(
+                   user.lastname, user.firstname, user.login, password, password_, user.email, user.sexe, user.birth_day
+                   )">Modifier</a></center>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

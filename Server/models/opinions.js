@@ -10,20 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     interest_id: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: '',
-      references: {
-        model: 'interest',
-        key: 'id'
-      }
+      allowNull: true
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'users',
-        key: 'id'
-      }
+      allowNull: true
     },
     content: {
       type: DataTypes.TEXT,

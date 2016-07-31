@@ -10,7 +10,8 @@ var sequelize = new Sequelize('Here-and-now', 'root', 'root', {
     dialect: 'mysql',
     define: {
         timestamps: false
-    }
+    },
+    logging: false
 });
 
 app.use(function(req, res, next) {
