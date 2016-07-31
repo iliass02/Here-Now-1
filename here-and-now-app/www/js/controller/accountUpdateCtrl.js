@@ -54,10 +54,10 @@ app
       console.log('send');
       UsersFct.updateUserInfoById(userId, login, email, password, lastname, firstname, birth_day, sexe)
         .success(function (success) {
-          console.log("update succefully");
+          Materialize.toast("Vos informations ont bien été mis à jours ", 1500, "green");
         })
         .error(function (error) {
-          console.log(error);
+          Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
         })
         .finally(function () {
           $ionicLoading.hide();
