@@ -6,8 +6,8 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-//path_url = "http://debian.dev:3000";
 path_url = "http://localhost:3000";
+//path_url = "http://172.16.24.75:3000";
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'authFactory', 'onezone-datepicker'])
 

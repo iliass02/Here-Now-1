@@ -16,6 +16,9 @@
           <span class="title">{{favorite.name}}</span>
           <p>{{favorite.address}}<br>
           </p>
+          <a href="#/user/{{userId}}/interest-detail/{{favorite.place_id}}">
+            <i class="ion-information-circled"></i>
+            Plus d'info</a>
           <a href="" class="secondary-content" ng-click="showConfirm($event, favorite.id, $index)"><i class="material-icons">delete</i></a>
         </li>
         <li class="collection-item" ng-if="!favorites.length">

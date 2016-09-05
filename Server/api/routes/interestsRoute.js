@@ -53,12 +53,13 @@ module.exports = function(router, connection) {
             var name = req.body.name;
             var latitude = req.body.latitude;
             var longitude = req.body.longitude;
+            var placeId = req.body.placeId;
             
 
-            if (!address || !name || !latitude || !longitude) {
+            if (!address || !name || !latitude || !longitude || !placeId) {
                 res.status(500).send({
                     success: false,
-                    error: "adresse, name, latitude, longitude parameters are required !"
+                    error: "adresse, name, latitude, longitude, placeId parameters are required !"
                 });
             } else {
 
@@ -73,12 +74,14 @@ module.exports = function(router, connection) {
                     console.log(favorite);
 
                     if (favorite.length == 0) {
+                        console.log(placeId);
                         Favorites.create({
                             address: address,
                             name: name,
                             latitude: latitude,
                             longitude: longitude,
-                            user_id: userId
+                            user_id: userId,
+                            place_id: placeId
                         }).then(function (favorite) {
                             res.status(200).send({
                                 success: true,
@@ -273,8 +276,7 @@ module.exports = function(router, connection) {
             var interest = null;
             for (var i = 0; i < interests_id.length; i++) {
 
-                interest = interests_id[i];
-
+                var interest = interests_id[i];
                 UserInterest.findAll({
                     where: {
                         user_id: user_id,

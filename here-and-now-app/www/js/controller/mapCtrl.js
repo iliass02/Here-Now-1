@@ -36,14 +36,16 @@ app
       GetPosition(position);
     });
 
-    $scope.addFavorites = function (name, address, latitude, longitude) {
+    $scope.addFavorites = function (name, address, latitude, longitude, placeId) {
 
+      console.log("new", placeId);
       var data = {
         userId: userId,
         name: name,
         address: address,
         latitude: latitude,
-        longitude: longitude
+        longitude: longitude,
+        placeId: placeId
       };
 
       FavoritesFct.postFavorite(userId, data)
@@ -130,7 +132,7 @@ app
       $cordovaSocialSharing
         .share(message) // Share via native share sheet
         .then(function() {
-          Materialize.toast("Partage du lieu réussi", 2000, "green");
+          //Materialize.toast("Partage du lieu réussi", 2000, "green");
         }, function() {
           Materialize.toast("Impossible de partager le lieu", 2000, "red");
         });
@@ -142,5 +144,3 @@ app
     }
 
   });
-
-
