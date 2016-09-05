@@ -182,8 +182,7 @@ module.exports = function(router, connection, mysqlConnection) {
     router.route('/users/:userId/interests')
 
     /**
-     * @api {GET} /users/:userId/interests All interests
-     * @apiName All interests by User ID
+     * @api {GET} /users/:userId/interests All interests by User ID
      * @apiGroup Interests
      *
      * @apiSuccess {Number} id  ID of the User Interest
@@ -225,8 +224,7 @@ module.exports = function(router, connection, mysqlConnection) {
         POST ALL interests choice by userId
          */
         /**
-         * @api {POST} /users/:userId/interests Interests
-         * @apiName Choice Interests by User ID
+         * @api {POST} /users/:userId/interests Choice Interests by User ID
          * @apiGroup Interests
          *
          * @apiSuccess {Number} id  ID of the User Interest
@@ -262,6 +260,17 @@ module.exports = function(router, connection, mysqlConnection) {
             }
         })
 
+        /**
+         * @api {PUT} /users/:userId/interests Update Interests by User ID
+         * @apiGroup Interests
+         *
+         * @apiParam {Array} interests_id Id of interests
+         *
+         * @apiSuccess {Number} id  ID of the User Interest
+         * @apiSuccess {Number} interest_id  ID of the Interest
+         * @apiSuccess {Number} user_id  ID of the User
+         * @apiSuccess {Array} interest  Information of the Interest
+         */
         .put(function (req, res) {
             var interests_id = req.query.interests_id,
                 user_id = req.params.userId;
@@ -294,6 +303,17 @@ module.exports = function(router, connection, mysqlConnection) {
 
         })
 
+        /**
+         * @api {DELETE} /users/:userId/interests Remove Interests by User ID
+         * @apiGroup Interests
+         *
+         * @apiParam {Array} interests_id Id of interests
+         *
+         * @apiSuccess {Number} id  ID of the User Interest
+         * @apiSuccess {Number} interest_id  ID of the Interest
+         * @apiSuccess {Number} user_id  ID of the User
+         * @apiSuccess {Array} interest  Information of the Interest
+         */
         .delete(function (req, res) {
             var interests_id = req.query.interests_id,
                 user_id = req.params.userId;
