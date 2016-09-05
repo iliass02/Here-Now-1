@@ -1,10 +1,14 @@
 app
-.controller('InterestsUpdateCtrl', function ($scope, $stateParams, $state, InterestsFct, MapFct, $location) {
+.controller('InterestsUpdateCtrl', function ($scope, $stateParams, $state, InterestsFct, MapFct, $location, $ionicLoading) {
   var userId = $stateParams.userId;
 
   $scope.myGoBack = function() {
     $ionicHistory.goBack();
   };
+
+  $ionicLoading.show({
+    template: '<ion-spinner icon="android"></ion-spinner>'
+  });
 
   // list dynamic checkboxes
   $scope.roles = [];
@@ -43,7 +47,10 @@ app
         })
         .error(function (err) {
           console.log(err);
-        });
+        })
+        .finally(function () {
+          $ionicLoading.hide();
+        })
     })
     .error(function(data) {
       console.log(data);
