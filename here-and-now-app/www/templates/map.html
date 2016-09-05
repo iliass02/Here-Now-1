@@ -29,7 +29,7 @@
               </div>
               <div class="col s6">
               <a href=""
-                 ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng)">
+                 ng-click="addFavorites(vm.interest.name, vm.interest.vicinity, vm.interest.geometry.location.lat, vm.interest.geometry.location.lng, vm.interest.place_id)">
                 <i class="icon ion-star"></i>
                 Ajouter au favoris
               </a>
@@ -61,9 +61,9 @@
   </ion-content>
 
   <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
-    <ion-tabs class="tabs-icon-top" style="width: 100%">
+    <ion-tabs animation="no-animation" class="tabs-icon-top" style="width: 100%">
 
-      <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
+      <ion-tab  title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
       </ion-tab>
 
       <ion-tab title="Timeline" href="#/news-feed/{{userId}}" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">

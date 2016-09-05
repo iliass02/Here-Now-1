@@ -1,0 +1,74 @@
+<ion-view view-title="Mon Compte"  hide-back-button="true" cache-view="false">
+  <ion-content>
+
+      <center>
+          <img ng-if="user.profileImageURL" width="100" height="100" src="{{user.profileImageURL}}" class="img-responsive circle">
+          <img ng-if="!user.profileImageURL" width="100" height="100" src="./img/Avatar-Kit-By-RK.png" alt="" class="circle img-responsive">
+    <div class="row">
+      <div class="col s3">
+        <p style="font-size: 19px;">
+          Login : {{user.login}}
+        </p>
+      </div>
+    </div>
+</center>
+
+    <div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col s12">
+          <p style="font-size: 17px;">centres d'intérêts :
+          <div class="chip" ng-repeat="AllInterest in interests">
+            {{ AllInterest.interest.fr_name }}
+            <i class="close material-icons" ng-click="removeInterest(AllInterest.interest.id)">close</i>
+          </div>
+          </p>
+        </div>
+      </div>
+
+      <p style="text-align: center; font-size: 17px;">Mes messages</p>
+      <div class="divider"></div>
+      <div class="row" ng-repeat="newsFeed in AllnewsFeed">
+        <div class="col s12 m6">
+          <div class="card grey lighten-3 flow-text">
+            <div class="card-content">
+              <span class="card-title">{{ newsFeed.user.login }}</span>
+              <p>{{ newsFeed.content }}</p>
+            </div>
+            <div class="card-action">
+              <a href="#">{{ newsFeed.date_post |  date:"EEE d MMM 'at' h:mm" }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+  <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+      <i class="material-icons">settings</i>
+    </a>
+    <ul>
+      <li><a title="I am hovering over the text" class="btn-floating blue" href="#/account/{{userId}}/update"><i class="material-icons">mode_edit</i></a></li>
+      <li><a class="btn-floating green" href="#/account/{{userId}}/interests/update"><i class="material-icons">add</i></a></li>
+    </ul>
+  </div>
+  <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
+    <ion-tabs class="tabs-icon-top" style="width: 100%">
+
+      <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">
+      </ion-tab>
+
+      <ion-tab title="Timeline" href="#/news-feed/{{userId}}" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
+      </ion-tab>
+
+      <ion-tab title="Favoris" href="#/favorites/{{userId}}"  icon-on="ion-ios-star" icon-off="ion-ios-star-outline">
+      </ion-tab>
+
+      <ion-tab title="Mon Compte" href="#/account/{{userId}}"  icon-on="ion-ios-person" icon-off="ion-ios-person-outline">
+        <!-- Tab 3 content -->
+      </ion-tab>
+
+    </ion-tabs>
+  </div>
+</ion-view>

@@ -1,5 +1,6 @@
 var mysql = require("mysql");
-var Sequelize = require('sequelize');
+var Sequelize = require('sequelize'),
+    bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(router, connection) {
     /*
@@ -61,6 +62,83 @@ module.exports = function(router, connection) {
                     data: user
                 });
             })
+        })
+
+        .put(function (req, res) {
+            var userId = req.params.user,
+                login = req.query.login,
+                email = req.query.email,
+                password = req.query.password,
+                firstname = req.query.firstname,
+                lastname = req.query.lastname,
+                sexe = req.query.sexe,
+                birth_day = req.query.birth_day;
+
+            console.log(req.query);
+
+            if (!userId)
+                return res.status(400).send({
+                    success: false,
+                    error: "userId is required !"
+                });
+
+            users.findAll({
+                where: {
+                    id: !userId,
+                    $or: [{
+                        email: email
+                    }, {
+                        login: login
+                    }]
+                }
+            }).then(function (user) {
+               if (user.length > 0)
+                   return res.status(409).send({
+                       success: false,
+                       error: "login or email already used !",
+                       user: user
+                   });
+
+                users.findById(userId).then(function (user) {
+                    if (user == null)
+                        return res.status(401).send({
+                            success: false,
+                            error: "user not found !"
+                        });
+
+                    user.updateAttributes({
+                        login: login,
+                        email: email,
+                        password: bcrypt.hashSync(password),
+                        firstname: firstname,
+                        lastname: lastname,
+                        sexe: sexe,
+                        birth_date: birth_day
+                    }).then(function (success) {
+                        return res.status(200).send({
+                            success: true,
+                            data: success
+                        });
+                    }, function (error) {
+                        return res.status(500).send({
+                            success: false,
+                            error: error
+                        });
+                    })
+                }, function (error) {
+                    return res.status(500).send({
+                        success: false,
+                        error: error
+                    });
+                });
+
+            }, function (error) {
+                return res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            });
+
         });
 
 
@@ -91,8 +169,9 @@ module.exports = function(router, connection) {
 
         });
 
+    router.route('/users/:UserId/opinion')
     /**
-     * @api {POST} /users/:UserId/opinion Get User's Opinion
+     * @api {POST} /users/:UserId/opinion Post User's Opinion
      * @apiName User's Opinion
      * @apiGroup Opinion
      *
@@ -105,7 +184,6 @@ module.exports = function(router, connection) {
      * @apiSuccess {String} content  Content of the Opinion.
      * @apiSuccess {String} date_post  Date of the Opinion's post.
      */
-    router.route('/users/:UserId/opinion')
          .post(function(req, res){
             var UserId = req.params.UserId;
             var InterestId = req.body.InterestId;
@@ -133,7 +211,49 @@ module.exports = function(router, connection) {
                     error: error
                 });
             });
-         });
+         })
+
+
+         /**
+          * @api {GET} /users/:UserId/opinion Get User's Opinion
+          * @apiName User's Opinion
+          * @apiGroup Opinion
+          *
+          * @apiParam {Number} UserId ID of the User
+          *
+          * @apiSuccess {Number} id opinion ID.
+          * @apiSuccess {String} user_id  ID of the User.
+          * @apiSuccess {String} interest_id  ID of the Interest.
+          * @apiSuccess {String} content  Content of the Opinion.
+          * @apiSuccess {String} date_post  Date of the Opinion's post.
+          */
+        .get(function (req, res) {
+            var UserId = req.params.UserId;
+
+            if (!UserId)
+                return res.status(500).send({
+                    success: false,
+                    error: "UserId is required"
+                });
+
+            opinions.findAll({
+                where: {
+                    user_id: UserId
+                },
+                order: 'date_post DESC',
+            }).then(function (UsersOpinions) {
+                res.status(200).send({
+                    success: true,
+                    data: UsersOpinions
+                });
+            }, function (error) {
+                res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            });
+
+        });
 
     /**
      * @api {GET} opinions/interest/:InterestId Get User's Opinion by Interest ID
@@ -214,6 +334,7 @@ module.exports = function(router, connection) {
             }); 
         });
 
+    router.route('/users/:UserId/news-feed')
     /**
      * @api {POST} /users/:UserId/news-feed Post News Feed
      * @apiName Post News Feed
@@ -226,7 +347,6 @@ module.exports = function(router, connection) {
      * @apiSuccess {String} content  Content of the news.
      * @apiSuccess {String} date_post  Date of the Opinion's post.
      */
-    router.route('/users/:UserId/news-feed')
         .post(function (req, res) {
             var UserId = req.params.UserId;
             var Content = req.body.Content;
@@ -252,5 +372,44 @@ module.exports = function(router, connection) {
                     error: error
                 });
             }); 
-        });
+        })
+
+        /**
+         * @api {GET} /users/:UserId/news-feed Get News Feed by user ID
+         * @apiName Get News Feed
+         * @apiGroup News Feed
+         *
+         * @apiParam {Number} UserID ID of the User
+         *
+         * @apiSuccess {Number} id News Feed ID.
+         * @apiSuccess {String} user_id  ID of the User.
+         * @apiSuccess {String} content  Content of the news.
+         * @apiSuccess {String} date_post  Date of the Opinion's post.
+         */
+        .get(function (req, res) {
+            var UserId = req.params.UserId;
+
+            if (!UserId) {
+                return res.status(500).send({
+                    success: false,
+                    error: "UserId is required"
+                });
+            }
+            news_feed.findAll({
+                where: {
+                    user_id: UserId
+                },
+                order: 'date_post DESC'
+            }).then(function (usersNewsFeed) {
+                res.status(200).send({
+                    success: true,
+                    data: usersNewsFeed
+                });
+            }, function (error) {
+                res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            });
+        })
 };

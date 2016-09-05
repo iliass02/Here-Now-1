@@ -1,7 +1,7 @@
 var mysql = require("mysql");
 var Sequelize = require('sequelize');
 
-module.exports = function(router, connection) {
+module.exports = function(router, connection, mysqlConnection) {
     /*
     Model for ORM
      */
@@ -53,12 +53,13 @@ module.exports = function(router, connection) {
             var name = req.body.name;
             var latitude = req.body.latitude;
             var longitude = req.body.longitude;
+            var placeId = req.body.placeId;
             
 
-            if (!address || !name || !latitude || !longitude) {
+            if (!address || !name || !latitude || !longitude || !placeId) {
                 res.status(500).send({
                     success: false,
-                    error: "adresse, name, latitude, longitude parameters are required !"
+                    error: "adresse, name, latitude, longitude, placeId parameters are required !"
                 });
             } else {
 
@@ -73,12 +74,14 @@ module.exports = function(router, connection) {
                     console.log(favorite);
 
                     if (favorite.length == 0) {
+                        console.log(placeId);
                         Favorites.create({
                             address: address,
                             name: name,
                             latitude: latitude,
                             longitude: longitude,
-                            user_id: userId
+                            user_id: userId,
+                            place_id: placeId
                         }).then(function (favorite) {
                             res.status(200).send({
                                 success: true,
@@ -236,6 +239,7 @@ module.exports = function(router, connection) {
             var interests_id = req.body.interests_id;
             var user_id = req.params.userId;
 
+            console.log(interests_id);
             if (!interests_id || !user_id || interests_id.length == 0) {
                 res.status(500).send({
                     'success': false,
@@ -247,11 +251,8 @@ module.exports = function(router, connection) {
                     UserInterest.create({
                         interest_id: interests_id[i],
                         user_id: user_id
-                    }).error(function (err) {
-                        res.status(500).send({
-                            "success": false,
-                            "error": err
-                        });
+                    }).then(function (success) {
+                        console.log(success);
                     });
 
                 }
@@ -259,5 +260,66 @@ module.exports = function(router, connection) {
                     "success": true
                 });
             }
+        })
+
+        .put(function (req, res) {
+            var interests_id = req.query.interests_id,
+                user_id = req.params.userId;
+
+            if (!interests_id || !user_id || interests_id.length == 0) {
+                return res.status(400).send({
+                    'success': false,
+                    'error': "Interets_id and user_id are required !"
+                });
+            }
+
+            var interest = null;
+            for (var i = 0; i < interests_id.length; i++) {
+
+                var interest = interests_id[i];
+                UserInterest.create({
+                    interest_id: interest,
+                    user_id: user_id
+                }).error(function (err) {
+                    res.status(500).send({
+                        "success": false,
+                        "error": err
+                    });
+                });
+
+            }
+            res.status(200).send({
+                "success": true
+            });
+
+        })
+
+        .delete(function (req, res) {
+            var interests_id = req.query.interests_id,
+                user_id = req.params.userId;
+
+            if (!interests_id || !user_id) {
+                return res.status(400).send({
+                    'success': false,
+                    'error': "Interets_id and user_id are required !"
+                });
+            }
+
+            UserInterest.destroy({
+                where: {
+                    user_id: user_id,
+                    interest_id: interests_id
+                }
+            }).then(function (success) {
+                res.status(200).send({
+                    success: true,
+                    data: success
+                });
+            }, function (error) {
+                res.status(500).send({
+                    success: false,
+                    error: error
+                });
+            });
         });
 };

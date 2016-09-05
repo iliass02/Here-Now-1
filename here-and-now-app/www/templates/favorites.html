@@ -1,28 +1,21 @@
 <ion-view view-title="Favoris" hide-back-button="true">
   <ion-content>
 
-    <div class="padding">
-
-        <div class="row">
-          <h5>Favoris</h5>
-        </div>
-    </div>
-
-
-    <div>
       <ul class="collection">
         <li class="collection-item avatar" ng-repeat="favorite in favorites">
           <i class="material-icons circle green">location_on</i>
           <span class="title">{{favorite.name}}</span>
           <p>{{favorite.address}}<br>
           </p>
+          <a href="#/user/{{userId}}/interest-detail/{{favorite.place_id}}">
+            <i class="ion-information-circled"></i>
+            Plus d'info</a>
           <a href="" class="secondary-content" ng-click="showConfirm($event, favorite.id, $index)"><i class="material-icons">delete</i></a>
         </li>
         <li class="collection-item" ng-if="!favorites.length">
           <span class="title">Aucune adresse</span>
         </li>
       </ul>
-    </div>
 
 
   </ion-content>

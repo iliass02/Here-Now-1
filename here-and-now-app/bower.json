@@ -9,6 +9,7 @@
     "ngCordova": "^0.1.26-alpha",
     "ngmap": "^1.17.3",
     "angular-material": "^1.0.9",
-    "angular-cookie": "^4.1.0"
+    "angular-cookie": "^4.1.0",
+    "onezone-datepicker": "*"
   }
 }
