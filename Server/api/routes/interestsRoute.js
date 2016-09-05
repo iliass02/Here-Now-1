@@ -1,7 +1,7 @@
 var mysql = require("mysql");
 var Sequelize = require('sequelize');
 
-module.exports = function(router, connection) {
+module.exports = function(router, connection, mysqlConnection) {
     /*
     Model for ORM
      */
@@ -277,25 +277,14 @@ module.exports = function(router, connection) {
             for (var i = 0; i < interests_id.length; i++) {
 
                 var interest = interests_id[i];
-                UserInterest.findAll({
-                    where: {
-                        user_id: user_id,
-                        interest_id: interest
-                    }
-                }).then(function (userInterest) {
-                    if (userInterest.length == 0) {
-                        UserInterest.create({
-                            interest_id: interest,
-                            user_id: user_id
-                        }).error(function (err) {
-                            res.status(500).send({
-                                "success": false,
-                                "error": err
-                            });
-                        });
-                    } else {
-                        console.log('KO');
-                    }
+                UserInterest.create({
+                    interest_id: interest,
+                    user_id: user_id
+                }).error(function (err) {
+                    res.status(500).send({
+                        "success": false,
+                        "error": err
+                    });
                 });
 
             }

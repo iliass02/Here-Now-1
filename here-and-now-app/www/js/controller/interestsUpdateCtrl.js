@@ -2,6 +2,10 @@ app
 .controller('InterestsUpdateCtrl', function ($scope, $stateParams, $state, InterestsFct, MapFct, $location) {
   var userId = $stateParams.userId;
 
+  $scope.myGoBack = function() {
+    $ionicHistory.goBack();
+  };
+
   // list dynamic checkboxes
   $scope.roles = [];
   $scope.user = {
@@ -23,9 +27,23 @@ app
 
   //Get all interests
   InterestsFct.getInterests()
-    .success(function(data) {
-      console.log(data);
-      $scope.roles = data.data;
+    .success(function(data1) {
+      $scope.roles = data1.data;
+      //Get User Interests
+      InterestsFct.getUserInterests(userId)
+        .success(function (data2) {
+          for (var i = 0; i < data1.data.length; i++) {
+            for (var j = 0; j < data2.data.length; j++) {
+              if (data1.data[i].id == data2.data[j].interest_id) {
+                data1.data.splice(i, 1);
+              }
+            }
+          }
+          $scope.roles = data1.data;
+        })
+        .error(function (err) {
+          console.log(err);
+        });
     })
     .error(function(data) {
       console.log(data);

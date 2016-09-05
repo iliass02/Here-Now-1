@@ -16,6 +16,9 @@ angular.module('interestsFactory', [])
         };
 
         return $http.delete(path_url+'/api/v1/users/'+userId+'/interests', {params: params});
+      },
+      getUserInterests : function (userId) {
+        return $http.get(path_url+'/api/v1/users/'+userId+'/interests');
       }
     }
   });

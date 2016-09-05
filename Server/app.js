@@ -14,6 +14,22 @@ var sequelize = new Sequelize('Here-and-now', 'root', 'root', {
     logging: false
 });
 
+var mysql = require('mysql');
+
+var mysqlConnection = mysql.createConnection({
+    user: 'root',
+    password: 'root',
+    database: 'here-and-now'
+    // debug: true
+});
+
+mysqlConnection.connect(function(err) {
+    if (err)
+        console.log("Connexion à la BDD : KO");
+    else
+        console.log("Connexion à la BDD : OK");
+});
+
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -36,7 +52,7 @@ app.get('/api/v1/', function(req, res) {
 });
 
 require('./api/routes/loginRoute.js')(router, sequelize);
-require('./api/routes/interestsRoute.js')(router, sequelize);
+require('./api/routes/interestsRoute.js')(router, sequelize, mysqlConnection);
 require('./api/routes/usersRoutes.js')(router, sequelize);
 
 app.use('/api/v1/', router);

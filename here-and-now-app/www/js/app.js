@@ -28,7 +28,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
-.config(function($stateProvider, $compileProvider, $urlRouterProvider) {
+.config(function($stateProvider, $compileProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.views.transition('none');
 
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|callto|file):/);
   // Ionic uses AngularUI Router which uses the concept of states
