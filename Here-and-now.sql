@@ -7,7 +7,7 @@
 #
 # Hôte: 127.0.0.1 (MySQL 5.5.42)
 # Base de données: Here-and-now
-# Temps de génération: 2016-09-05 19:36:30 +0000
+# Temps de génération: 2016-09-06 07:06:22 +0000
 # ************************************************************
 
 
@@ -52,6 +52,29 @@ CREATE TABLE `interest` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `interest` WRITE;
+/*!40000 ALTER TABLE `interest` DISABLE KEYS */;
+
+INSERT INTO `interest` (`id`, `name`, `fr_name`)
+VALUES
+	(5,'museum','Musée'),
+	(6,'movie_theater','Cinéma/Théatre'),
+	(8,'restaurant','Restaurant'),
+	(9,'department_store','Supermarché'),
+	(10,'bar','Bar'),
+	(11,'bakery','Boulangerie'),
+	(12,'art_gallery','Gallerie d\'art'),
+	(13,'amusement_park','Parc d\'attractions'),
+	(14,'library','Bibliothèque'),
+	(15,'mosque','Mosquée'),
+	(16,'synagogue','Synagogue'),
+	(17,'church','Église'),
+	(18,'cafe','Cafe'),
+	(19,'park','Parc'),
+	(20,'lodging','Hébergement');
+
+/*!40000 ALTER TABLE `interest` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Affichage de la table news_feed
