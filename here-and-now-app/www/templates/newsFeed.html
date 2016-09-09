@@ -1,6 +1,29 @@
 <ion-view view-title="Fil d'actualité" hide-back-button="true">
   <ion-content>
 
+    <div ng-if="android" class = "tabs tabs-icon-top">
+      <a class = "tab-item" href="#/map/{{userId}}">
+        <i class = "icon ion-map"></i>
+        Map
+      </a>
+
+      <a class = "tab-item" href="#/news-feed/{{userId}}">
+        <i class = "icon ion-ios-paper"></i>
+        Timeline
+      </a>
+
+      <a class = "tab-item" href="#/favorites/{{userId}}">
+        <i class = "icon ion-ios-star"></i>
+        Favoris
+      </a>
+
+      <a class = "tab-item" href="#/account/{{userId}}">
+        <i class = "icon ion-ios-person"></i>
+        Mon Compte
+      </a>
+
+    </div>
+
     <div class="row " ng-repeat="news in newsFeeds">
       <div class="col s12 m6">
         <div class="card grey lighten-3 flow-text">
@@ -21,7 +44,7 @@
       <i class="material-icons" ng-click="showPrompt($event)">add</i>
     </a>
   </div>
-  <div class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
+  <div ng-if="!android" class="bar bar-footer" style="background-image: none !important; padding: 0px; margin-bottom: 5px;">
     <ion-tabs class="tabs-icon-top" style="width: 100%">
 
       <ion-tab title="Map" href="#/map/{{userId}}" icon-on="ion-map" icon-off="ion-map">

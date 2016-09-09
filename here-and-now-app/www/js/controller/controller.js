@@ -15,6 +15,7 @@ var app = angular.module(
     "authFactory",
     "newsFeedFactory",
     "interestDetailFactory",
-    "accountFactory"
+    "accountFactory",
+    "ionic"
   ]
 );

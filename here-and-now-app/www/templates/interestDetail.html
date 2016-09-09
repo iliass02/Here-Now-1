@@ -1,6 +1,6 @@
 <ion-view view-title="{{interestDetails.name}}">
   <ion-content>
-    <div class="list card">
+    <div ng-if="finish" class="list card">
       <div class="item item-avatar">
         <img class="z-depth-1" src="{{interestDetails.icon}}">
         <h2>{{interestDetails.name}}</h2>

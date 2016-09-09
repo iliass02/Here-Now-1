@@ -7,6 +7,9 @@ app
     template: '<ion-spinner icon="android"></ion-spinner>'
   });
 
+  //android menu
+  $scope.android = ionic.Platform.isAndroid();
+
   //get favorites by userId
   FavoritesFct.getFavorites(userId)
     .success(function(data) {

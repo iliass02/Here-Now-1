@@ -1,14 +1,20 @@
 app
 
   .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $stateParams, NgMap, MapFct, FavoritesFct, AuthFct, $cordovaSocialSharing) {
-    var options = {timeout: 10000, enableHighAccuracy: true};
-    var GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8";
-    var vm = this;
-    var userId = $stateParams.userId;
-    var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
+    var options = {timeout: 10000, enableHighAccuracy: true},
+      GoogleKey = "AIzaSyAksXWsv6qT5z_DJk-kWW5wmDXs1TG_BP8",
+      vm = this,
+      userId = $stateParams.userId,
+      watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 10000 });
 
     $scope.userId = userId;
     $scope.vm = vm;
+
+
+    //android menu
+    $scope.android = ionic.Platform.isAndroid();
+    //ios menu
+    $scope.ios = ionic.Platform.isIOS();
 
     NgMap.getMap().then(function(map) {
       vm.map = map;
@@ -22,23 +28,18 @@ app
       vm.map.showInfoWindow('foo-iw', interest.id);
     };
 
-    $scope.test = function () {
-      console.log('test');
-    }
-
     $ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
     $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key="+GoogleKey;
+    //$scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js";
 
     $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
       GetPosition(position);
     });
 
     $scope.addFavorites = function (name, address, latitude, longitude, placeId) {
-
-      console.log("new", placeId);
       var data = {
         userId: userId,
         name: name,
@@ -98,6 +99,7 @@ app
           MapFct.getGoogleInterestsByUserInterests(position, allInterest, 200)
             .success(function (data) {
               $scope.interests = data.results;
+              console.log(data.results);
             })
             .error(function (err) {
               console.log(err);
@@ -117,6 +119,7 @@ app
                 var longitude = data.results[0].geometry.location.lng;
 
                 MapFct.notification(interestId, title, text, latitude, longitude);
+
               }
             });
         })

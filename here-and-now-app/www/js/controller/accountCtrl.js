@@ -6,6 +6,9 @@ app
     template: '<ion-spinner icon="android"></ion-spinner>'
   });
 
+  //android menu
+  $scope.android = ionic.Platform.isAndroid();
+
   $scope.userId = userId;
   console.log('Account Ctrl');
   UsersFct.getUserById(userId)

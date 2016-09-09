@@ -1,20 +1,30 @@
 app
-  .controller("InterestDetailCtrl", function ($scope, InterestDetailFct, $stateParams, $mdDialog){
-    var interestId = $stateParams.interestId;
-    var GetInterestDetail = function () {
-      InterestDetailFct.getOpinions(interestId)
-        .success(function (opinions) {
-          console.log(opinions.data);
-          $scope.opinions = opinions.data;
-        })
-        .error(function (error) {
-          console.log(error);
+  .controller("InterestDetailCtrl", function ($scope, InterestDetailFct, $stateParams, $mdDialog, $ionicLoading){
+    var interestId = $stateParams.interestId,
+      GetInterestDetail = function () {
+        $ionicLoading.show({
+          template: '<ion-spinner icon="android"></ion-spinner>'
         });
+
+        InterestDetailFct.getOpinions(interestId)
+          .success(function (opinions) {
+            console.log(opinions.data);
+            $scope.opinions = opinions.data;
+          })
+          .error(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            $ionicLoading.hide();
+          })
     };
 
     GetInterestDetail();
 
-    console.log('Controller InterestDetail');
+    $ionicLoading.show({
+      template: '<ion-spinner icon="android"></ion-spinner>'
+    });
+
     InterestDetailFct.getInterestDetail(interestId)
       .success(function (results) {
         console.log(results.result);
@@ -22,7 +32,13 @@ app
       })
       .error(function (error) {
         console.log(error);
+      })
+      .finally(function () {
+        $scope.finish = true;
+        $ionicLoading.hide();
       });
+
+
     $scope.showPrompt = function(ev) {
       // Appending dialog to document.body to cover sidenav in docs app
       var confirm = $mdDialog.prompt()
