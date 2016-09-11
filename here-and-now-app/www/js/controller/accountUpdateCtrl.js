@@ -36,9 +36,6 @@ app
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
-    console.log(sexe);
-    console.log($scope.birth_day);
-
     if(password != password_) {
       $ionicLoading.hide();
       return Materialize.toast("Erreur : les mots de passe ne correspondent pas !", 1500, "red");
@@ -48,10 +45,8 @@ app
     }
 
     if (email.length == 0 && login.length == 0 ) {
-      console.log('password null');
       $ionicLoading.hide();
     } else {
-      console.log('send');
       UsersFct.updateUserInfoById(userId, login, email, password, lastname, firstname, birth_day, sexe)
         .success(function (success) {
           Materialize.toast("Vos informations ont bien été mis à jours ", 1500, "green");

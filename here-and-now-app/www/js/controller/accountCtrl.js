@@ -10,7 +10,7 @@ app
   $scope.android = ionic.Platform.isAndroid();
 
   $scope.userId = userId;
-  console.log('Account Ctrl');
+
   UsersFct.getUserById(userId)
     .success(function (user) {
       $scope.user = user.data;
@@ -50,7 +50,6 @@ app
         Materialize.toast("Le centre d'intérêt a bien été supprimer", 1500, "green");
       })
       .error(function (error) {
-        console.log(error);
         Materialize.toast("Erreur : veuillez réessayer ultérieurement !", 1500, "red");
       })
       .finally(function () {

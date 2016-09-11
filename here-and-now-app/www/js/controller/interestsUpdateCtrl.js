@@ -27,8 +27,6 @@ app
     $scope.user.roles.push('guest');
   };
 
-  console.log($scope.user);
-
   //Get all interests
   InterestsFct.getInterests()
     .success(function(data1) {
@@ -61,7 +59,6 @@ app
     var params = {
       interests_id: interests
     };
-    console.log(params);
 
     InterestsFct.updateInterests(params, userId)
       .success(function (success) {

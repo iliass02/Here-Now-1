@@ -8,7 +8,6 @@ angular.module('usersFactory', [])
         return $http.post(path_url+'/api/v1/signin', dataUser);
       },
       signup : function(dataUser) {
-        console.log('dataUserFactory', dataUser);
         return $http.post(path_url+'/api/v1/signup', dataUser);
       },
       findUserByLogin : function(login) {
@@ -33,8 +32,6 @@ angular.module('usersFactory', [])
           birth_day: birth_day,
           sexe: sexe
         };
-
-        console.log(params);
 
         return $http.put(path_url+'/api/v1/users/'+userId, {}, {params: params});
       }

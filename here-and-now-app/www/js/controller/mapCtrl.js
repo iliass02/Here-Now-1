@@ -21,10 +21,8 @@ app
     });
 
     $scope.vm.showDetail = function(e, interest) {
-      console.log(interest);
       vm.interest = interest;
       vm.interest.types.splice(vm.interest.types.length - 2, 2);
-      console.log(interest.id);
       vm.map.showInfoWindow('foo-iw', interest.id);
     };
 
@@ -99,7 +97,6 @@ app
           MapFct.getGoogleInterestsByUserInterests(position, allInterest, 200)
             .success(function (data) {
               $scope.interests = data.results;
-              console.log(data.results);
             })
             .error(function (err) {
               console.log(err);
@@ -112,11 +109,11 @@ app
           MapFct.getGoogleInterestsByUserInterests(position, allInterest, 10)
             .success(function (data) {
               if (data.results.length) {
-                var interestId = data.results[0].place_id;
-                var text = data.results[0].name;
-                var title = "Un point d'intérêt pourrait vous intéresser !";
-                var latitude = data.results[0].geometry.location.lat;
-                var longitude = data.results[0].geometry.location.lng;
+                var interestId = data.results[0].place_id,
+                  text = data.results[0].name,
+                  title = "Un point d'intérêt pourrait vous intéresser !",
+                  latitude = data.results[0].geometry.location.lat,
+                  longitude = data.results[0].geometry.location.lng;
 
                 MapFct.notification(interestId, title, text, latitude, longitude);
 

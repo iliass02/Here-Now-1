@@ -22,7 +22,6 @@ app
   //Get all interests
   InterestsFct.getInterests()
     .success(function(data) {
-      console.log(data);
       $scope.roles = data.data;
     })
     .error(function(data) {

@@ -6,15 +6,6 @@ angular.module('authFactory', ['ngCookies'])
       },
       getAccessToken : function() {
         return $cookieStore.get('accessToken');
-      },
-      getUserObject : function() {
-        var userObj = $cookieStore.get('userObj');
-
-        if (userObj) {
-          return userObj
-        } else {
-          console.log('User Object not found');
-        }
       }
     }
   });

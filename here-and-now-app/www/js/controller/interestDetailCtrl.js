@@ -8,7 +8,6 @@ app
 
         InterestDetailFct.getOpinions(interestId)
           .success(function (opinions) {
-            console.log(opinions.data);
             $scope.opinions = opinions.data;
           })
           .error(function (error) {
@@ -27,7 +26,6 @@ app
 
     InterestDetailFct.getInterestDetail(interestId)
       .success(function (results) {
-        console.log(results.result);
         $scope.interestDetails = results.result;
       })
       .error(function (error) {
